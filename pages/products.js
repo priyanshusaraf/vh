@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { Search, Filter, Star, Phone, Mail, MapPin, Menu, X } from 'lucide-react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -37,8 +37,8 @@ export default function Products() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
 
-  // Sample product data
-  const allProducts = [
+  // Sample product data - wrapped in useMemo to prevent re-creation
+  const allProducts = useMemo(() => [
     {
       id: 1,
       name: "Ceramic Dinner Set",
@@ -159,7 +159,7 @@ export default function Products() {
       category: "dining",
       size: "Small"
     }
-  ];
+  ], []);
 
   // Handle URL search parameters
   useEffect(() => {
@@ -205,7 +205,7 @@ export default function Products() {
     });
 
     setFilteredProducts(filtered);
-  }, [searchTerm, sortBy, filterCategory]);
+  }, [searchTerm, sortBy, filterCategory, allProducts]);
 
   return (
     <>
