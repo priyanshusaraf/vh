@@ -349,7 +349,7 @@ export default function Home() {
         <title>Visto Homeware - Premium Home & Kitchen Products</title>
         <meta name="description" content="Discover premium homeware products at Visto Homeware. Quality kitchen essentials, elegant dinnerware, and stylish home accessories." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/vh-logo.jpeg" />
       </Head>
 
       {/* Navigation */}
@@ -360,7 +360,7 @@ export default function Home() {
               <Link href="/" className="flex items-center space-x-3">
                 <div className="h-10 w-auto">
                   <Image
-                    src="/visto-logo.png"
+                    src="/vh-logo.jpeg"
                     alt="Visto Homeware"
                     width={120}
                     height={40}
@@ -442,14 +442,9 @@ export default function Home() {
               </Link>
               <SearchBar />
             </div>
-            <div className="flex justify-center items-center space-x-8 text-sm text-gray-500">
-              <div className="flex items-center">
-                <Star className="w-5 h-5 text-yellow-400 fill-current mr-1" />
-                <span className="font-medium">4.9/5 Rating</span>
-              </div>
-              <div>
-                <span className="font-medium">Free Shipping</span> on orders ₹5,000+
-              </div>
+            <div className="flex items-center space-x-2 text-sm text-gray-600">
+
+ 
             </div>
           </div>
         </div>
@@ -459,21 +454,20 @@ export default function Home() {
       <section id="about" className="py-20 lg:py-28 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold text-white mb-8">
               About Visto Homeware
             </h2>
-            <p className="text-lg md:text-xl text-purple-100 max-w-4xl mx-auto leading-relaxed">
-              For over a decade, we've been dedicated to bringing you the finest homeware products 
+            <p className="text-xl md:text-2xl text-purple-100 max-w-5xl mx-auto leading-relaxed">
+              We've been dedicated to bringing you the finest homeware products 
               that combine functionality with style. Our commitment to quality and customer satisfaction 
               has made us a trusted name in home essentials.
             </p>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
             <AnimatedCounter target={10000} label="Units Sold" suffix="+" />
             <AnimatedCounter target={500} label="Products" suffix="+" />
             <AnimatedCounter target={98} label="Satisfaction Rate" suffix="%" />
-            <div></div>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -481,101 +475,19 @@ export default function Home() {
               <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 float-icon group-hover:bg-white/20 transition-all">
                 <Star className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white">Premium Quality</h3>
-              <p className="text-purple-100 leading-relaxed">
-                Every product is carefully selected and tested to ensure it meets our high standards of excellence.
+              <h3 className="text-2xl font-bold mb-4 text-white">Premium Quality</h3>
+              <p className="text-purple-100 leading-relaxed text-lg">
+                Excellence in every product.
               </p>
             </div>
             <div className="text-center group">
               <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 float-icon group-hover:bg-white/20 transition-all">
                 <Phone className="w-10 h-10 text-white" />
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white">Expert Support</h3>
-              <p className="text-purple-100 leading-relaxed">
+              <h3 className="text-2xl font-bold mb-4 text-white">Expert Support</h3>
+              <p className="text-purple-100 leading-relaxed text-lg">
                 Our knowledgeable team is here to help you find the perfect products for your home.
               </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Shop by Category Section */}
-      <section className="py-20 lg:py-28 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
-              Shop by Category
-            </h2>
-            <p className="text-lg md:text-xl text-gray-600 max-w-2xl mx-auto">
-              Discover our curated collections designed for every corner of your home
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Kitchen Category */}
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden bg-gradient-to-br from-orange-50 to-orange-100 aspect-[4/3] mb-6 group-hover:shadow-xl transition-all duration-300">
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-500/20 to-orange-600/30 group-hover:from-orange-500/30 group-hover:to-orange-600/40 transition-all duration-300"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-orange-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                      <span className="text-2xl text-white">🍳</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800">Kitchen Essentials</h3>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center">
-                <h3 className="text-xl font-bold mb-2 text-gray-800">Kitchen</h3>
-                <p className="text-gray-600 mb-4">Professional cookware, utensils, and appliances for the modern kitchen</p>
-                <Link href="/products?category=kitchen" className="inline-flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors">
-                  Shop Kitchen <ChevronRight className="ml-1 w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Dining Category */}
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 aspect-[4/3] mb-6 group-hover:shadow-xl transition-all duration-300">
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-500/20 to-blue-600/30 group-hover:from-blue-500/30 group-hover:to-blue-600/40 transition-all duration-300"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-blue-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                      <span className="text-2xl text-white">🍽️</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800">Dining Collection</h3>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center">
-                <h3 className="text-xl font-bold mb-2 text-gray-800">Dining</h3>
-                <p className="text-gray-600 mb-4">Elegant dinnerware, glassware, and serving pieces for memorable meals</p>
-                <Link href="/products?category=dining" className="inline-flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors">
-                  Shop Dining <ChevronRight className="ml-1 w-4 h-4" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Storage Category */}
-            <div className="group cursor-pointer">
-              <div className="relative overflow-hidden bg-gradient-to-br from-green-50 to-green-100 aspect-[4/3] mb-6 group-hover:shadow-xl transition-all duration-300">
-                <div className="absolute inset-0 bg-gradient-to-br from-green-500/20 to-green-600/30 group-hover:from-green-500/30 group-hover:to-green-600/40 transition-all duration-300"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-16 h-16 bg-green-500 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
-                      <span className="text-2xl text-white">📦</span>
-                    </div>
-                    <h3 className="text-xl font-bold text-gray-800">Storage Solutions</h3>
-                  </div>
-                </div>
-              </div>
-              <div className="text-center">
-                <h3 className="text-xl font-bold mb-2 text-gray-800">Storage</h3>
-                <p className="text-gray-600 mb-4">Stylish storage containers and organization solutions for your home</p>
-                <Link href="/products?category=storage" className="inline-flex items-center text-purple-600 font-semibold hover:text-purple-700 transition-colors">
-                  Shop Storage <ChevronRight className="ml-1 w-4 h-4" />
-                </Link>
-              </div>
             </div>
           </div>
         </div>

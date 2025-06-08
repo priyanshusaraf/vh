@@ -213,7 +213,7 @@ export default function Products() {
         <title>Products - Visto Homeware</title>
         <meta name="description" content="Browse our complete collection of premium homeware products. Kitchen essentials, elegant dinnerware, and stylish home accessories." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/vh-logo.jpeg" />
       </Head>
 
       {/* Navigation */}
