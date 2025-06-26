@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Star, Search, Menu, X } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Star, Search, Menu, X, Download } from 'lucide-react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -508,9 +508,14 @@ export default function Home() {
               and stylish home accessories that elevate your everyday living experience.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
-              <Link href="/products" className="bg-burgundy-800 text-white px-8 py-4 hover:bg-burgundy-900 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
-                Shop Collection
-              </Link>
+              <a 
+                href="/product-catalogue.pdf" 
+                download="Visto-Homeware-Catalogue.pdf"
+                className="inline-flex items-center bg-burgundy-800 text-white px-8 py-4 hover:bg-burgundy-900 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+              >
+                <Download className="mr-2 w-5 h-5" />
+                Download Catalogue
+              </a>
               <SearchBar />
             </div>
             <div className="flex items-center space-x-2 text-sm text-gray-600">
