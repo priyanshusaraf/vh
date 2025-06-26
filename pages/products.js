@@ -9,7 +9,7 @@ const ProductCard = ({ product }) => {
   return (
     <div className="bg-white shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
       <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-purple-100/30 group-hover:scale-110 transition-transform duration-500"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-burgundy-50/50 to-burgundy-100/30 group-hover:scale-110 transition-transform duration-500"></div>
         <span className="text-gray-400 font-medium relative z-10">Product Image</span>
       </div>
       <div className="p-6">
@@ -21,7 +21,7 @@ const ProductCard = ({ product }) => {
           <span className="ml-2 text-sm text-gray-400">({product.reviews} reviews)</span>
         </div>
         <div className="flex items-center justify-between">
-          <div className="text-purple-600 font-bold text-xl">₹{product.price.toLocaleString()}</div>
+          <div className="text-burgundy-800 font-bold text-xl">₹{product.price.toLocaleString()}</div>
           <div className="text-sm text-gray-500 font-medium">Size: {product.size}</div>
         </div>
       </div>
@@ -213,7 +213,7 @@ export default function Products() {
         <title>Products - Visto Homeware</title>
         <meta name="description" content="Browse our complete collection of premium homeware products. Kitchen essentials, elegant dinnerware, and stylish home accessories." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/vh-logo.jpeg" />
+        <link rel="icon" href="/vh-logo.png" />
       </Head>
 
       {/* Navigation */}
@@ -224,7 +224,7 @@ export default function Products() {
               <Link href="/" className="flex items-center space-x-3">
                 <div className="h-10 w-auto">
                   <Image
-                    src="/vh-logo.jpeg"
+                    src="/vh-logo.png"
                     alt="Visto Homeware"
                     width={120}
                     height={40}
@@ -232,23 +232,23 @@ export default function Products() {
                     priority
                   />
                 </div>
-                <span className="text-xl font-bold text-purple-600 hidden sm:block">Visto Homeware</span>
+                <span className="text-xl font-bold text-burgundy-800 hidden sm:block">Visto Homeware</span>
               </Link>
             </div>
             
             {/* Desktop Menu */}
-            <div className="hidden md:block">
-              <div className="ml-10 flex items-baseline space-x-8">
-                <Link href="/" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
+                          <div className="hidden md:block">
+                <div className="ml-10 flex items-baseline space-x-8">
+                <Link href="/" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   Home
                 </Link>
-                <Link href="/products" className="text-purple-600 px-3 py-2 text-sm font-medium">
+                <Link href="/products" className="text-burgundy-800 px-3 py-2 text-sm font-medium">
                   Products
                 </Link>
-                <Link href="/#about" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
+                <Link href="/#about" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   About
                 </Link>
-                <Link href="/#contact" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
+                <Link href="/#contact" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   Contact
                 </Link>
               </div>
@@ -258,7 +258,7 @@ export default function Products() {
             <div className="md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gray-700 hover:text-purple-600 p-2"
+                className="text-gray-700 hover:text-burgundy-800 p-2"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -267,18 +267,18 @@ export default function Products() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-            <div className="md:hidden">
-              <div className="px-2 pt-2 pb-3 space-y-1 bg-white/90 backdrop-blur-md border-t border-white/20">
-                <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">
+                          <div className="md:hidden">
+                <div className="px-2 pt-2 pb-3 space-y-1 bg-white/90 backdrop-blur-md border-t border-white/20">
+                <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   Home
                 </Link>
-                <Link href="/products" className="block px-3 py-2 text-purple-600 transition-colors">
+                <Link href="/products" className="block px-3 py-2 text-burgundy-800 transition-colors">
                   Products
                 </Link>
-                <Link href="/#about" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">
+                <Link href="/#about" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   About
                 </Link>
-                <Link href="/#contact" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">
+                <Link href="/#contact" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   Contact
                 </Link>
               </div>
@@ -288,11 +288,11 @@ export default function Products() {
       </nav>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-purple-50 to-white py-16 mt-16">
+      <section className="bg-gradient-to-r from-burgundy-50 to-white py-16 mt-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4">
-              Our <span className="text-purple-600">Product Collection</span>
+              Our <span className="text-burgundy-800">Product Collection</span>
             </h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Discover our complete range of premium homeware products designed to elevate your living space
@@ -313,7 +313,7 @@ export default function Products() {
                 placeholder="Search products..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               />
             </div>
 
@@ -324,7 +324,7 @@ export default function Products() {
                 <select
                   value={filterCategory}
                   onChange={(e) => setFilterCategory(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
                 >
                   <option value="all">All Categories</option>
                   <option value="kitchen">Kitchen</option>
@@ -337,7 +337,7 @@ export default function Products() {
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
               >
                 <option value="name">Sort by Name</option>
                 <option value="price-low">Price: Low to High</option>
@@ -366,7 +366,7 @@ export default function Products() {
                   setFilterCategory('all');
                   setSortBy('name');
                 }}
-                className="mt-4 text-purple-600 hover:text-purple-700 font-medium"
+                className="mt-4 text-burgundy-800 hover:text-burgundy-900 font-medium"
               >
                 Clear all filters
               </button>
@@ -395,32 +395,32 @@ export default function Products() {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-shadow">
-                <Phone className="w-10 h-10 text-purple-600" />
+              <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-shadow">
+                <Phone className="w-10 h-10 text-burgundy-800" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">Call Us</h3>
               <p className="text-gray-600 mb-2">Mon-Fri 9AM-6PM</p>
-              <a href="tel:+918336900588" className="text-purple-600 font-semibold hover:underline text-lg">
+              <a href="tel:+918336900588" className="text-burgundy-800 font-semibold hover:underline text-lg">
                 +91 83369 00588
               </a>
             </div>
             <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-shadow">
-                <Mail className="w-10 h-10 text-purple-600" />
+              <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-shadow">
+                <Mail className="w-10 h-10 text-burgundy-800" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">Email Us</h3>
               <p className="text-gray-600 mb-2">Quick response guaranteed</p>
-              <a href="mailto:srnplastics@gmail.com" className="text-purple-600 font-semibold hover:underline">
-                srnplastics@gmail.com
+              <a href="mailto:smplastics@gmail.com" className="text-burgundy-800 font-semibold hover:underline">
+                smplastics@gmail.com
               </a>
             </div>
             <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-shadow">
-                <MapPin className="w-10 h-10 text-purple-600" />
+              <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 rounded-2xl flex items-center justify-center mx-auto mb-6 group-hover:shadow-lg transition-shadow">
+                <MapPin className="w-10 h-10 text-burgundy-800" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">Visit Us</h3>
               <p className="text-gray-600 mb-2">Our showroom location</p>
-              <p className="text-purple-600 font-semibold text-center leading-relaxed">
+              <p className="text-burgundy-800 font-semibold text-center leading-relaxed">
                 1/2, Chanditala Branch Road<br />
                 Kolkata, PIN-700053<br />
                 West Bengal, India
@@ -438,14 +438,14 @@ export default function Products() {
               <div className="flex items-center space-x-3 mb-4">
                 <div className="h-8 w-auto">
                   <Image
-                    src="/vh-logo.jpeg"
+                    src="/vh-logo.png"
                     alt="Visto Homeware"
                     width={120}
                     height={40}
                     className="h-8 w-auto object-contain brightness-0 invert"
                   />
                 </div>
-                <h3 className="text-xl font-bold text-purple-400">Visto Homeware</h3>
+                <h3 className="text-xl font-bold text-white">Visto Homeware</h3>
               </div>
               <p className="text-gray-400 leading-relaxed">
                 Premium homeware products for modern living. Quality you can trust.
@@ -473,7 +473,7 @@ export default function Products() {
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>+91 83369 00588</li>
-                <li>srnplastics@gmail.com</li>
+                <li>smplastics@gmail.com</li>
                 <li>1/2, Chanditala Branch Road<br />Kolkata, PIN-700053, W.B.<br />
                 <span className="text-sm text-gray-500">GSTIN: 19AEXPA3954Q1ZJ</span></li>
               </ul>

@@ -15,7 +15,7 @@ const Logo = ({ className = "h-10 w-auto" }) => {
   return (
     <div className={`relative ${className}`}>
       <Image
-        src="/vh-logo.jpeg"
+        src="/vh-logo.png"
         alt="Visto Homeware"
         width={120}
         height={40}
@@ -66,9 +66,9 @@ const CurvedSVG = () => {
       />
       <defs>
         <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#9333ea" stopOpacity="0.6" />
-          <stop offset="50%" stopColor="#a855f7" stopOpacity="0.8" />
-          <stop offset="100%" stopColor="#c084fc" stopOpacity="0.4" />
+          <stop offset="0%" stopColor="#db2777" stopOpacity="0.6" />
+          <stop offset="50%" stopColor="#ec4899" stopOpacity="0.8" />
+          <stop offset="100%" stopColor="#f9a8d4" stopOpacity="0.4" />
         </linearGradient>
       </defs>
     </svg>
@@ -120,7 +120,7 @@ const AnimatedCounter = ({ target, label, suffix = '' }) => {
       <div className="text-4xl font-bold text-white mb-2">
         {count.toLocaleString()}{suffix}
       </div>
-      <div className="text-purple-200 font-medium">{label}</div>
+      <div className="text-rose-200 font-medium">{label}</div>
     </div>
   );
 };
@@ -209,70 +209,141 @@ const ProductCarousel = () => {
     return 100 / itemsPerView;
   };
 
+  // Handle scroll snap for mobile reel-like experience
+  const handleScroll = (e) => {
+    if (window.innerWidth < 768) {
+      const container = e.target;
+      const itemWidth = container.scrollWidth / products.length;
+      const scrollLeft = container.scrollLeft;
+      const newIndex = Math.round(scrollLeft / itemWidth);
+      setCurrentIndex(newIndex);
+    }
+  };
+
   return (
     <div className="relative">
-      <div className="overflow-hidden">
+      {/* Mobile: Reel-like scroll experience */}
+      <div className="md:hidden">
         <div 
           ref={carouselRef}
-          className="flex transition-transform duration-500 ease-in-out"
-          style={{ transform: `translateX(-${getTranslateX()}%)` }}
+          className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide"
+          style={{
+            scrollBehavior: 'smooth',
+            WebkitOverflowScrolling: 'touch',
+          }}
+          onScroll={handleScroll}
         >
           {products.map((product, index) => (
             <div 
               key={product.id} 
-              className="flex-shrink-0 px-2 md:px-4"
-              style={{ width: `${getItemWidth()}%` }}
+              className="flex-shrink-0 w-[85vw] mx-2 snap-center"
             >
-              <div className="bg-white shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 mx-auto max-w-sm group">
-                <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 to-purple-100/30 group-hover:scale-110 transition-transform duration-500"></div>
-                  <span className="text-gray-400 font-medium relative z-10">Product Image</span>
-                </div>
-                <div className="p-4 md:p-6">
-                  <h3 className="font-semibold text-base md:text-lg mb-2 truncate text-gray-800">{product.name}</h3>
-                  <div className="flex items-center mb-3">
-                    <Star className="w-4 h-4 text-yellow-400 fill-current" />
-                    <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
+              <div className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 mx-auto group h-[70vh] flex flex-col">
+                <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
+                  <div className="absolute inset-0 bg-gradient-to-br from-burgundy-50/50 to-burgundy-100/30 group-hover:scale-110 transition-transform duration-700"></div>
+                  <div className="text-center relative z-10">
+                    <div className="w-32 h-32 bg-white/70 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
+                      <span className="text-4xl">📦</span>
+                    </div>
+                    <span className="text-gray-500 font-medium text-lg">Product Image</span>
                   </div>
-                  <div className="text-purple-600 font-bold text-lg md:text-xl">₹{product.price.toLocaleString()}</div>
+                </div>
+                <div className="p-6 bg-white">
+                  <h3 className="font-bold text-xl mb-3 text-gray-800 line-clamp-2">{product.name}</h3>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center">
+                      <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                      <span className="ml-2 text-lg text-gray-600 font-semibold">{product.rating}</span>
+                    </div>
+                    <div className="text-burgundy-800 font-bold text-2xl">₹{product.price.toLocaleString()}</div>
+                  </div>
+                  <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-900 text-white py-3 px-6 rounded-xl text-center font-semibold hover:shadow-lg transition-all duration-300">
+                    View Details
+                  </div>
                 </div>
               </div>
             </div>
           ))}
         </div>
+        
+        {/* Mobile pagination dots */}
+        <div className="flex justify-center mt-6 space-x-2">
+          {products.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => {
+                setCurrentIndex(index);
+                if (carouselRef.current) {
+                  const container = carouselRef.current;
+                  const itemWidth = container.scrollWidth / products.length;
+                  container.scrollTo({
+                    left: itemWidth * index,
+                    behavior: 'smooth'
+                  });
+                }
+              }}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentIndex 
+                  ? 'bg-burgundy-800 scale-125' 
+                  : 'bg-gray-300 hover:bg-gray-400'
+              }`}
+              aria-label={`Go to product ${index + 1}`}
+            />
+          ))}
+        </div>
       </div>
-      
-      {products.length > itemsPerView && (
-        <>
-          <button 
-            onClick={prevSlide}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm shadow-lg rounded-full p-3 hover:bg-white hover:scale-110 transition-all duration-200 z-10 md:left-2 group"
-            aria-label="Previous products"
-          >
-            <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-gray-700 group-hover:text-purple-600 transition-colors" />
-          </button>
-          
-          <button 
-            onClick={nextSlide}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm shadow-lg rounded-full p-3 hover:bg-white hover:scale-110 transition-all duration-200 z-10 md:right-2 group"
-            aria-label="Next products"
-          >
-            <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-700 group-hover:text-purple-600 transition-colors" />
-          </button>
-        </>
-      )}
 
-      <div className="flex justify-center mt-8 space-x-2 md:hidden">
-        {Array.from({ length: maxIndex + 1 }).map((_, index) => (
-          <button
-            key={index}
-            onClick={() => setCurrentIndex(index)}
-            className={`w-2 h-2 rounded-full transition-all duration-300 ${
-              index === currentIndex ? 'bg-purple-600 w-6' : 'bg-gray-300 hover:bg-gray-400'
-            }`}
-            aria-label={`Go to slide ${index + 1}`}
-          />
-        ))}
+      {/* Desktop: Original carousel experience */}
+      <div className="hidden md:block">
+        <div className="overflow-hidden">
+          <div 
+            className="flex transition-transform duration-500 ease-in-out"
+            style={{ transform: `translateX(-${getTranslateX()}%)` }}
+          >
+            {products.map((product, index) => (
+              <div 
+                key={product.id} 
+                className="flex-shrink-0 px-2 md:px-4"
+                style={{ width: `${getItemWidth()}%` }}
+              >
+                <div className="bg-white shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 mx-auto max-w-sm group">
+                  <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
+                    <div className="absolute inset-0 bg-gradient-to-br from-burgundy-50/50 to-burgundy-100/30 group-hover:scale-110 transition-transform duration-500"></div>
+                    <span className="text-gray-400 font-medium relative z-10">Product Image</span>
+                  </div>
+                  <div className="p-4 md:p-6">
+                    <h3 className="font-semibold text-base md:text-lg mb-2 truncate text-gray-800">{product.name}</h3>
+                    <div className="flex items-center mb-3">
+                      <Star className="w-4 h-4 text-yellow-400 fill-current" />
+                      <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
+                    </div>
+                    <div className="text-burgundy-800 font-bold text-lg md:text-xl">₹{product.price.toLocaleString()}</div>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        {products.length > itemsPerView && (
+          <>
+            <button 
+              onClick={prevSlide}
+              className="absolute left-0 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm shadow-lg rounded-full p-3 hover:bg-white hover:scale-110 transition-all duration-200 z-10 md:left-2 group"
+              aria-label="Previous products"
+            >
+              <ChevronLeft className="w-4 h-4 md:w-5 md:h-5 text-gray-700 group-hover:text-burgundy-800 transition-colors" />
+            </button>
+            
+            <button 
+              onClick={nextSlide}
+              className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-white/90 backdrop-blur-sm shadow-lg rounded-full p-3 hover:bg-white hover:scale-110 transition-all duration-200 z-10 md:right-2 group"
+              aria-label="Next products"
+            >
+              <ChevronRight className="w-4 h-4 md:w-5 md:h-5 text-gray-700 group-hover:text-burgundy-800 transition-colors" />
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
@@ -299,11 +370,11 @@ const SearchBar = () => {
         placeholder="Search products..."
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
-        className="w-full pl-10 pr-4 py-3 border-2 border-purple-200 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all"
+        className="w-full pl-10 pr-4 py-3 border-2 border-red-200 rounded-xl focus:ring-2 focus:ring-red-500 focus:border-transparent transition-all"
       />
       <button
         type="submit"
-        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-purple-600 text-white p-2 rounded-lg hover:bg-purple-700 transition-colors"
+        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-burgundy-800 text-white p-2 rounded-lg hover:bg-burgundy-900 transition-colors"
       >
         <Search className="w-4 h-4" />
       </button>
@@ -349,7 +420,7 @@ export default function Home() {
         <title>Visto Homeware - Premium Home & Kitchen Products</title>
         <meta name="description" content="Discover premium homeware products at Visto Homeware. Quality kitchen essentials, elegant dinnerware, and stylish home accessories." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/vh-logo.jpeg" />
+        <link rel="icon" href="/vh-logo.png" />
       </Head>
 
       {/* Navigation */}
@@ -360,7 +431,7 @@ export default function Home() {
               <Link href="/" className="flex items-center space-x-3">
                 <div className="h-10 w-auto">
                   <Image
-                    src="/vh-logo.jpeg"
+                    src="/vh-logo.png"
                     alt="Visto Homeware"
                     width={120}
                     height={40}
@@ -368,23 +439,23 @@ export default function Home() {
                     priority
                   />
                 </div>
-                <span className="text-xl font-bold text-purple-600 hidden sm:block">Visto Homeware</span>
+                <span className="text-xl font-bold text-burgundy-800 hidden sm:block">Visto Homeware</span>
               </Link>
             </div>
             
             {/* Desktop Menu */}
             <div className="hidden md:block">
               <div className="ml-10 flex items-baseline space-x-8">
-                <Link href="/" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
+                <Link href="/" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   Home
                 </Link>
-                <Link href="/products" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
+                <Link href="/products" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   Products
                 </Link>
-                <Link href="#about" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
+                <Link href="#about" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   About
                 </Link>
-                <Link href="#contact" className="text-gray-700 hover:text-purple-600 px-3 py-2 text-sm font-medium transition-colors">
+                <Link href="#contact" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   Contact
                 </Link>
               </div>
@@ -394,7 +465,7 @@ export default function Home() {
             <div className="md:hidden">
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="text-gray-700 hover:text-purple-600 p-2"
+                className="text-gray-700 hover:text-burgundy-800 p-2"
               >
                 {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
@@ -405,16 +476,16 @@ export default function Home() {
           {mobileMenuOpen && (
             <div className="md:hidden">
               <div className="px-2 pt-2 pb-3 space-y-1 bg-white/90 backdrop-blur-md border-t border-white/20">
-                <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">
+                <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   Home
                 </Link>
-                <Link href="/products" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">
+                <Link href="/products" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   Products
                 </Link>
-                <Link href="#about" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">
+                <Link href="#about" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   About
                 </Link>
-                <Link href="#contact" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">
+                <Link href="#contact" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   Contact
                 </Link>
               </div>
@@ -424,20 +495,20 @@ export default function Home() {
       </nav>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="relative bg-gradient-to-br from-purple-50 via-white to-purple-25 py-20 lg:py-32 mt-16 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-purple-600/5 to-transparent"></div>
+      <section ref={heroRef} className="relative bg-gradient-to-br from-rose-50 via-white to-rose-25 py-20 lg:py-32 mt-16 overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-rose-600/5 to-transparent"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 leading-tight">
               Transform Your Home with 
-              <span className="text-purple-600 block">Premium Homeware</span>
+              <span className="bg-gradient-to-r from-rose-400 to-burgundy-800 bg-clip-text text-transparent block">Premium Homeware</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
               Discover our curated collection of high-quality kitchen essentials, elegant dinnerware, 
               and stylish home accessories that elevate your everyday living experience.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
-              <Link href="/products" className="bg-purple-600 text-white px-8 py-4 hover:bg-purple-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+              <Link href="/products" className="bg-burgundy-800 text-white px-8 py-4 hover:bg-burgundy-900 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                 Shop Collection
               </Link>
               <SearchBar />
@@ -451,41 +522,80 @@ export default function Home() {
       </section>
 
       {/* About Us Section */}
-      <section id="about" className="py-20 lg:py-28 bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold text-white mb-8">
-              About Visto Homeware
-            </h2>
-            <p className="text-xl md:text-2xl text-purple-100 max-w-5xl mx-auto leading-relaxed">
+      <section id="about" className="relative py-20 lg:py-32 bg-gradient-to-br from-burgundy-700 via-burgundy-800 to-burgundy-900 text-white overflow-hidden">
+        {/* Background decorative elements */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-white/20 rounded-full blur-xl"></div>
+          <div className="absolute bottom-20 right-20 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
+          <div className="absolute top-1/2 left-1/4 w-24 h-24 bg-white/15 rounded-full blur-lg"></div>
+        </div>
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="text-center mb-20">
+            <div className="inline-block">
+              <h2 className="text-2xl md:text-2xl lg:text-4xl font-bold text-white mb-8 relative">
+                About Visto Homeware
+                <div className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-20 h-1 bg-gradient-to-r from-red-300 to-burgundy-100 rounded-full"></div>
+              </h2>
+            </div>
+            <p className="text-xl md:text-2xl text-rose-100 max-w-5xl mx-auto leading-relaxed">
               We've been dedicated to bringing you the finest homeware products 
               that combine functionality with style. Our commitment to quality and customer satisfaction 
               has made us a trusted name in home essentials.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            <AnimatedCounter target={10000} label="Units Sold" suffix="+" />
-            <AnimatedCounter target={500} label="Products" suffix="+" />
-            <AnimatedCounter target={98} label="Satisfaction Rate" suffix="%" />
+          {/* Stats Section with enhanced design */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+            <div className="relative">
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center group hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-400/20 to-red-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <AnimatedCounter target={50000} label="Units Sold" suffix="+" />
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center group hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-400/20 to-red-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <AnimatedCounter target={500} label="Products" suffix="+" />
+                </div>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center group hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                <div className="absolute inset-0 bg-gradient-to-r from-red-400/20 to-red-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <div className="relative z-10">
+                  <AnimatedCounter target={98} label="Satisfaction Rate" suffix="%" />
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Service Cards with enhanced design */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 max-w-5xl mx-auto">
             <div className="text-center group">
-              <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 float-icon group-hover:bg-white/20 transition-all">
-                <Star className="w-10 h-10 text-white" />
+              <div className="relative">
+                <div className="w-24 h-24 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/30 rounded-3xl flex items-center justify-center mx-auto mb-8 float-icon group-hover:bg-white/25 transition-all duration-300 shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-red-300/30 to-red-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Star className="w-12 h-12 text-white relative z-10 drop-shadow-lg" />
+                </div>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-white">Premium Quality</h3>
-              <p className="text-purple-100 leading-relaxed text-lg">
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-white">Premium Quality</h3>
+              <p className="text-rose-100 leading-relaxed text-lg md:text-xl">
                 Excellence in every product.
               </p>
             </div>
             <div className="text-center group">
-              <div className="w-20 h-20 bg-white/10 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-6 float-icon group-hover:bg-white/20 transition-all">
-                <Phone className="w-10 h-10 text-white" />
+              <div className="relative">
+                <div className="w-24 h-24 bg-gradient-to-br from-white/20 to-white/10 backdrop-blur-sm border border-white/30 rounded-3xl flex items-center justify-center mx-auto mb-8 float-icon group-hover:bg-white/25 transition-all duration-300 shadow-2xl">
+                  <div className="absolute inset-0 bg-gradient-to-br from-red-300/30 to-red-500/20 rounded-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <Phone className="w-12 h-12 text-white relative z-10 drop-shadow-lg" />
+                </div>
               </div>
-              <h3 className="text-2xl font-bold mb-4 text-white">Expert Support</h3>
-              <p className="text-purple-100 leading-relaxed text-lg">
+              <h3 className="text-2xl md:text-3xl font-bold mb-6 text-white">Expert Support</h3>
+              <p className="text-rose-100 leading-relaxed text-lg md:text-xl">
                 Our knowledgeable team is here to help you find the perfect products for your home.
               </p>
             </div>
@@ -494,7 +604,7 @@ export default function Home() {
       </section>
 
       {/* Featured Products */}
-      <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-50 to-purple-50/30">
+      <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-50 to-red-50/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
@@ -508,7 +618,7 @@ export default function Home() {
           <ProductCarousel />
 
           <div className="text-center mt-12">
-            <Link href="/products" className="inline-flex items-center bg-purple-600 text-white px-8 py-4 rounded-xl hover:bg-purple-700 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
+            <Link href="/products" className="inline-flex items-center bg-burgundy-800 text-white px-8 py-4 rounded-xl hover:bg-burgundy-900 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1">
               See All Products
               <ChevronRight className="ml-2 w-5 h-5" />
             </Link>
@@ -517,7 +627,7 @@ export default function Home() {
       </section>
 
       {/* Customer Testimonials */}
-      <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-50 to-purple-50/20">
+      <section className="py-20 lg:py-28 bg-gradient-to-br from-gray-50 to-red-50/20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
@@ -540,8 +650,8 @@ export default function Home() {
                 of every family gathering. Absolutely worth every penny!"
               </p>
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-purple-100 flex items-center justify-center mr-3">
-                  <span className="text-purple-600 font-semibold">S</span>
+                <div className="w-10 h-10 bg-red-100 flex items-center justify-center mr-3">
+                  <span className="text-burgundy-800 font-semibold">S</span>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900">Sarah Johnson</h4>
@@ -561,8 +671,8 @@ export default function Home() {
                 Visto Homeware has become my go-to for all kitchen essentials."
               </p>
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-purple-100 flex items-center justify-center mr-3">
-                  <span className="text-purple-600 font-semibold">M</span>
+                <div className="w-10 h-10 bg-red-100 flex items-center justify-center mr-3">
+                  <span className="text-burgundy-800 font-semibold">M</span>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900">Michael Chen</h4>
@@ -582,8 +692,8 @@ export default function Home() {
                 better, and everything works perfectly after months of daily use."
               </p>
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-purple-100 flex items-center justify-center mr-3">
-                  <span className="text-purple-600 font-semibold">A</span>
+                <div className="w-10 h-10 bg-red-100 flex items-center justify-center mr-3">
+                  <span className="text-burgundy-800 font-semibold">A</span>
                 </div>
                 <div>
                   <h4 className="font-semibold text-gray-900">Amanda Rodriguez</h4>
@@ -607,34 +717,44 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
-                <Phone className="w-10 h-10 text-purple-600" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-800">Call Us</h3>
-              <p className="text-gray-600 mb-2">Mon-Fri 9AM-6PM</p>
-              <a href="tel:+918336900588" className="text-purple-600 font-semibold hover:underline text-lg">
-                +91 83369 00588
-              </a>
-            </div>
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
-                <Mail className="w-10 h-10 text-purple-600" />
+              <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
+                <Mail className="w-10 h-10 text-burgundy-800" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">Email Us</h3>
               <p className="text-gray-600 mb-2">Quick response guaranteed</p>
-              <a href="mailto:srnplastics@gmail.com" className="text-purple-600 font-semibold hover:underline">
-                srnplastics@gmail.com
+              <a href="mailto:smplastics@gmail.com" className="text-burgundy-800 font-semibold hover:underline">
+                smplastics@gmail.com
               </a>
             </div>
             <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-purple-100 to-purple-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
-                <MapPin className="w-10 h-10 text-purple-600" />
+              <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
+                <Phone className="w-10 h-10 text-burgundy-800" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-800">Raj Agarwal</h3>
+              <p className="text-gray-600 mb-2">Business Inquiries</p>
+              <a href="tel:+919830161908" className="text-burgundy-800 font-semibold hover:underline text-lg">
+                +91 98301 61908
+              </a>
+            </div>
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
+                <Phone className="w-10 h-10 text-burgundy-800" />
+              </div>
+              <h3 className="text-xl font-bold mb-3 text-gray-800">Gopal Saraf</h3>
+              <p className="text-gray-600 mb-2">Business Inquiries</p>
+              <a href="tel:+919831033736" className="text-burgundy-800 font-semibold hover:underline text-lg">
+                +91 98310 33736
+              </a>
+            </div>
+            <div className="text-center group">
+              <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
+                <MapPin className="w-10 h-10 text-burgundy-800" />
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">Visit Us</h3>
               <p className="text-gray-600 mb-2">Our showroom location</p>
-              <p className="text-purple-600 font-semibold text-center leading-relaxed">
+              <p className="text-burgundy-800 font-semibold text-center leading-relaxed">
                 1/2, Chanditala Branch Road<br />
                 Kolkata, PIN-700053<br />
                 West Bengal, India
@@ -668,14 +788,14 @@ export default function Home() {
               <div className="flex items-center space-x-3 mb-4">
                 <div className="h-8 w-auto">
                   <Image
-                    src="/vh-logo.jpeg"
+                    src="/vh-logo.png"
                     alt="Visto Homeware"
                     width={120}
                     height={40}
                     className="h-8 w-auto object-contain brightness-0 invert"
                   />
                 </div>
-                <h3 className="text-xl font-bold text-purple-400">Visto Homeware</h3>
+                <h3 className="text-xl font-bold text-white">Visto Homeware</h3>
               </div>
               <p className="text-gray-400 leading-relaxed">
                 Premium homeware products for modern living. Quality you can trust.
@@ -702,8 +822,8 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>+91 83369 00588</li>
-                <li>srnplastics@gmail.com</li>
+                <li>+91 98310 33736</li>
+                <li>smplastics@gmail.com</li>
                 <li>1/2, Chanditala Branch Road<br />Kolkata, PIN-700053, W.B.<br />
                 <span className="text-sm text-gray-500">GSTIN: 19AEXPA3954Q1ZJ</span></li>
               </ul>

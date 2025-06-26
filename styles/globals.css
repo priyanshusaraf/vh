@@ -40,12 +40,37 @@ a {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #9333ea;
+  background: #881337;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #7c3aed;
+  background: #4c0519;
+}
+
+/* Hide scrollbar for reel-like experience */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Enhanced mobile touch scrolling */
+.mobile-scroll {
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  overscroll-behavior-x: contain;
+}
+
+/* Line clamp utility */
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 /* Smooth scrolling */
@@ -57,7 +82,7 @@ html {
 button:focus,
 input:focus,
 select:focus {
-  outline: 2px solid #9333ea;
+  outline: 2px solid #881337;
   outline-offset: 2px;
 }
 
