@@ -279,9 +279,6 @@ export default function Products() {
                 <Link href="/products" className="text-burgundy-800 px-3 py-2 text-sm font-medium">
                   Products
                 </Link>
-                <Link href="/gallery" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
-                  Gallery
-                </Link>
                 <Link href="/#about" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   About
                 </Link>
@@ -311,9 +308,6 @@ export default function Products() {
                 </Link>
                 <Link href="/products" className="block px-3 py-2 text-burgundy-800 transition-colors">
                   Products
-                </Link>
-                <Link href="/gallery" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
-                  Gallery
                 </Link>
                 <Link href="/#about" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   About
@@ -365,14 +359,6 @@ export default function Products() {
                 <Filter className="w-4 h-4" />
                 Filters
               </button>
-              
-              <Link 
-                href="/gallery"
-                className="flex items-center gap-2 px-4 py-3 bg-burgundy-800 text-white rounded-xl hover:bg-burgundy-900 transition-colors"
-              >
-                <Grid className="w-4 h-4" />
-                Gallery View
-              </Link>
             </div>
           </div>
 
@@ -524,8 +510,8 @@ export default function Products() {
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">Email Us</h3>
               <p className="text-gray-600 mb-2">Quick response guaranteed</p>
-              <a href="mailto:smplastics@gmail.com" className="text-burgundy-800 font-semibold hover:underline">
-                smplastics@gmail.com
+              <a href="mailto:info@vistohomeware.com" className="text-burgundy-800 font-semibold hover:underline">
+                info@vistohomeware.com
               </a>
             </div>
             <div className="text-center group">

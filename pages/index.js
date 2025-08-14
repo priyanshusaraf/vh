@@ -847,7 +847,7 @@ export default function Home() {
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">Email Us</h3>
               <p className="text-gray-600 mb-2">Quick response guaranteed</p>
-              <a href="mailto:smplastics@gmail.com" className="text-burgundy-800 font-semibold hover:underline">
+              <a href="mailto:info@vistohomeware.com" className="text-burgundy-800 font-semibold hover:underline">
                 info@vistohomeware.com
               </a>
             </div>
