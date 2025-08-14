@@ -566,9 +566,6 @@ export default function Home() {
                 <Link href="/products" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   Products
                 </Link>
-                <Link href="/gallery" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
-                  Gallery
-                </Link>
                 <Link href="#about" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   About
                 </Link>
@@ -598,9 +595,6 @@ export default function Home() {
                 </Link>
                 <Link href="/products" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   Products
-                </Link>
-                <Link href="/gallery" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
-                  Gallery
                 </Link>
                 <Link href="#about" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   About
@@ -854,7 +848,7 @@ export default function Home() {
               <h3 className="text-xl font-bold mb-3 text-gray-800">Email Us</h3>
               <p className="text-gray-600 mb-2">Quick response guaranteed</p>
               <a href="mailto:smplastics@gmail.com" className="text-burgundy-800 font-semibold hover:underline">
-                smplastics@gmail.com
+                info@vistohomeware.com
               </a>
             </div>
             <div className="text-center group">
@@ -935,7 +929,6 @@ export default function Home() {
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
                 <li><Link href="/products" className="hover:text-white transition-colors">Products</Link></li>
-                <li><Link href="/gallery" className="hover:text-white transition-colors">Gallery</Link></li>
                 <li><Link href="#about" className="hover:text-white transition-colors">About</Link></li>
                 <li><Link href="#contact" className="hover:text-white transition-colors">Contact</Link></li>
               </ul>
