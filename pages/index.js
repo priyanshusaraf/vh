@@ -953,7 +953,7 @@ export default function Home() {
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <ul className="space-y-2 text-gray-400">
                 <li>+91 98310 33736</li>
-                <li>smplastics@gmail.com</li>
+                <li>info@vistohomeware.com</li>
                 <li>1/2, Chanditala Branch Road<br />Kolkata, PIN-700053, W.B.<br />
                 <span className="text-sm text-gray-500">GSTIN: 19AEXPA3954Q1ZJ</span></li>
               </ul>
