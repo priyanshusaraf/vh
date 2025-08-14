@@ -765,65 +765,68 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                 ))}
               </div>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                "The quality of these products is exceptional. My new dinner set has become the centerpiece 
-                of every family gathering. Absolutely worth every penny!"
+                "We've been sourcing storage containers from Visto Homeware for our corporate office pantry. 
+                The Feel Fresh containers have exceptional build quality and maintain food freshness remarkably well. 
+                Their professional service and consistent product quality make them our preferred supplier."
               </p>
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-red-100 flex items-center justify-center mr-3">
-                  <span className="text-burgundy-800 font-semibold">S</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-burgundy-100 to-burgundy-200 rounded-full flex items-center justify-center mr-4">
+                  <span className="text-burgundy-800 font-bold text-lg">SJ</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Sarah Johnson</h4>
-                  <p className="text-sm text-gray-500">Verified Customer</p>
+                  <h4 className="font-semibold text-gray-900">Sanjeev Jain</h4>
+                  <p className="text-sm text-gray-500">CEO, Global Writings</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                 ))}
               </div>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                "Fast shipping, excellent customer service, and products that exceed expectations. 
-                Visto Homeware has become my go-to for all kitchen essentials."
+                "As CFO, I appreciate value-driven partnerships. Visto Homeware delivers premium quality containers 
+                at competitive prices with reliable delivery schedules. Their 3-piece container sets have been excellent 
+                for our export packaging needs. A trustworthy business partner for bulk orders."
               </p>
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-red-100 flex items-center justify-center mr-3">
-                  <span className="text-burgundy-800 font-semibold">M</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-burgundy-100 to-burgundy-200 rounded-full flex items-center justify-center mr-4">
+                  <span className="text-burgundy-800 font-bold text-lg">MS</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Michael Chen</h4>
-                  <p className="text-sm text-gray-500">Verified Customer</p>
+                  <h4 className="font-semibold text-gray-900">Manmohan Saraf</h4>
+                  <p className="text-sm text-gray-500">CFO, Uma Exports</p>
                 </div>
               </div>
             </div>
 
-            <div className="bg-white p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div className="bg-white p-8 rounded-xl shadow-sm hover:shadow-md transition-shadow">
               <div className="flex items-center mb-4">
                 {[...Array(5)].map((_, i) => (
                   <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
                 ))}
               </div>
               <p className="text-gray-600 mb-6 leading-relaxed">
-                "I love how these products blend functionality with style. My kitchen has never looked 
-                better, and everything works perfectly after months of daily use."
+                "The durability and design of Visto's storage solutions impressed me from the first purchase. 
+                I've equipped my entire kitchen with their Feel Fresh range, from small spice containers to large bulk storage. 
+                Excellent airtight sealing keeps everything fresh, and the quality has remained consistent over years of daily use."
               </p>
               <div className="flex items-center">
-                <div className="w-10 h-10 bg-red-100 flex items-center justify-center mr-3">
-                  <span className="text-burgundy-800 font-semibold">A</span>
+                <div className="w-12 h-12 bg-gradient-to-br from-burgundy-100 to-burgundy-200 rounded-full flex items-center justify-center mr-4">
+                  <span className="text-burgundy-800 font-bold text-lg">RK</span>
                 </div>
                 <div>
-                  <h4 className="font-semibold text-gray-900">Amanda Rodriguez</h4>
-                  <p className="text-sm text-gray-500">Verified Customer</p>
+                  <h4 className="font-semibold text-gray-900">Rajiv Karnani</h4>
+                  <p className="text-sm text-gray-500">Business Professional</p>
                 </div>
               </div>
             </div>
