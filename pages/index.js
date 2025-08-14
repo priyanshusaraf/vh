@@ -133,38 +133,43 @@ const ProductCarousel = () => {
   const products = [
     {
       id: 1,
-      name: "Ceramic Dinner Set",
-      price: 2999,
-      image: "/api/placeholder/300/300",
-      rating: 4.8
+      name: "Feel Fresh Medium Container",
+      image: "/FEEL FRESH MEDIUM 800ml.jpg",
+      rating: 4.7,
+      size: "800ml",
+      description: "Versatile medium-sized container ideal for cereals, pasta, rice, and daily essentials."
     },
     {
       id: 2,
-      name: "Crystal Wine Glasses",
-      price: 899,
-      image: "/api/placeholder/300/300",
-      rating: 4.9
+      name: "Feel Fresh 3-Piece Container Set",
+      image: "/FEEL FRESH 3 Pcs.jpeg",
+      rating: 4.9,
+      size: "3 Pieces",
+      description: "Complete storage solution featuring small, medium, and large containers."
     },
     {
       id: 3,
-      name: "Wooden Cutting Board",
-      price: 450,
-      image: "/api/placeholder/300/300",
-      rating: 4.7
+      name: "Feel Fresh Large Container",
+      image: "/FEEL FRESH LARGE 1500ml.jpeg",
+      rating: 4.9,
+      size: "1500ml",
+      description: "Premium large container with enhanced capacity for storing large quantities."
     },
     {
       id: 4,
-      name: "Stainless Steel Cookware",
-      price: 1999,
-      image: "/api/placeholder/300/300",
-      rating: 4.8
+      name: "Feel Fresh Square Big Container",
+      image: "/FEEL FRESH SQUARE BIG 1000ml.jpeg",
+      rating: 4.8,
+      size: "1000ml",
+      description: "Large square container with maximum storage efficiency for organized arrangement."
     },
     {
       id: 5,
-      name: "Bamboo Kitchen Utensils",
-      price: 350,
-      image: "/api/placeholder/300/300",
-      rating: 4.6
+      name: "Feel Fresh Small Container",
+      image: "/FEEL FRESH SMALL 300ml.jpg",
+      rating: 4.6,
+      size: "300ml",
+      description: "Compact airtight container perfect for snacks, nuts, and small portions."
     }
   ];
 
@@ -238,30 +243,30 @@ const ProductCarousel = () => {
               key={product.id} 
               className="flex-shrink-0 w-[85vw] mx-2 snap-center"
             >
-              <div className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 mx-auto group h-[70vh] flex flex-col">
-                <div className="flex-1 bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-br from-burgundy-50/50 to-burgundy-100/30 group-hover:scale-110 transition-transform duration-700"></div>
-                  <div className="text-center relative z-10">
-                    <div className="w-32 h-32 bg-white/70 rounded-full flex items-center justify-center mx-auto mb-4 shadow-lg">
-                      <span className="text-4xl">📦</span>
-                    </div>
-                    <span className="text-gray-500 font-medium text-lg">Product Image</span>
+                          <div className="bg-white rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 mx-auto group h-[70vh] flex flex-col">
+              <div className="flex-1 relative overflow-hidden">
+                <Image
+                  src={product.image}
+                  alt={product.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-700"
+                />
+              </div>
+              <div className="p-6 bg-white">
+                <h3 className="font-bold text-xl mb-2 text-gray-800 line-clamp-2">{product.name}</h3>
+                <p className="text-gray-600 text-sm mb-3 line-clamp-2">{product.description}</p>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center">
+                    <Star className="w-5 h-5 text-yellow-400 fill-current" />
+                    <span className="ml-2 text-lg text-gray-600 font-semibold">{product.rating}</span>
                   </div>
+                  <div className="text-sm text-gray-500 font-medium bg-gray-50 px-2 py-1 rounded">{product.size}</div>
                 </div>
-                <div className="p-6 bg-white">
-                  <h3 className="font-bold text-xl mb-3 text-gray-800 line-clamp-2">{product.name}</h3>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center">
-                      <Star className="w-5 h-5 text-yellow-400 fill-current" />
-                      <span className="ml-2 text-lg text-gray-600 font-semibold">{product.rating}</span>
-                    </div>
-                    <div className="text-burgundy-800 font-bold text-2xl">₹{product.price.toLocaleString()}</div>
-                  </div>
-                  <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-900 text-white py-3 px-6 rounded-xl text-center font-semibold hover:shadow-lg transition-all duration-300">
-                    View Details
-                  </div>
+                <div className="bg-gradient-to-r from-burgundy-800 to-burgundy-900 text-white py-3 px-6 rounded-xl text-center font-semibold hover:shadow-lg transition-all duration-300">
+                  View Details
                 </div>
               </div>
+            </div>
             </div>
           ))}
         </div>
@@ -306,20 +311,27 @@ const ProductCarousel = () => {
                 className="flex-shrink-0 px-2 md:px-4"
                 style={{ width: `${getItemWidth()}%` }}
               >
-                <div className="bg-white shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 mx-auto max-w-sm group">
-                  <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-br from-burgundy-50/50 to-burgundy-100/30 group-hover:scale-110 transition-transform duration-500"></div>
-                    <span className="text-gray-400 font-medium relative z-10">Product Image</span>
-                  </div>
-                  <div className="p-4 md:p-6">
-                    <h3 className="font-semibold text-base md:text-lg mb-2 truncate text-gray-800">{product.name}</h3>
-                    <div className="flex items-center mb-3">
+                              <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 mx-auto max-w-sm group">
+                <div className="aspect-square relative overflow-hidden">
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                  />
+                </div>
+                <div className="p-4 md:p-6">
+                  <h3 className="font-semibold text-base md:text-lg mb-2 line-clamp-2 text-gray-800 min-h-[3rem]">{product.name}</h3>
+                  <div className="flex items-center justify-between mb-3">
+                    <div className="flex items-center">
                       <Star className="w-4 h-4 text-yellow-400 fill-current" />
                       <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
                     </div>
-                    <div className="text-burgundy-800 font-bold text-lg md:text-xl">₹{product.price.toLocaleString()}</div>
+                    <div className="text-xs text-gray-500 font-medium bg-gray-50 px-2 py-1 rounded">{product.size}</div>
                   </div>
+                  <p className="text-gray-600 text-xs line-clamp-2">{product.description}</p>
                 </div>
+              </div>
               </div>
             ))}
           </div>
@@ -417,10 +429,112 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Visto Homeware - Premium Home & Kitchen Products</title>
-        <meta name="description" content="Discover premium homeware products at Visto Homeware. Quality kitchen essentials, elegant dinnerware, and stylish home accessories." />
+        <title>Visto Homeware - Premium Kitchen Containers, Tiffin Boxes & Food Storage Solutions</title>
+        <meta name="description" content="India's leading brand for premium kitchen containers, airtight food storage, tiffin boxes, water bottles & household products. BPA-free, microwave safe containers. Free delivery across India." />
+        <meta name="keywords" content="kitchen containers, food storage containers, tiffin boxes, lunch boxes, water bottles, airtight containers, BPA free containers, microwave safe containers, Feel Fresh containers, plastic containers, kitchen storage solutions, household products, kitchenware India, food containers online, storage boxes, meal prep containers" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/vh-logo.png" />
+        
+        {/* Open Graph tags for social sharing */}
+        <meta property="og:title" content="Visto Homeware - Premium Kitchen Containers & Food Storage Solutions" />
+        <meta property="og:description" content="India's leading brand for premium kitchen containers, airtight food storage, tiffin boxes & household products. BPA-free, microwave safe containers." />
+        <meta property="og:image" content="/vh-logo.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://vistohomeware.com" />
+        
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Visto Homeware - Premium Kitchen Containers & Food Storage Solutions" />
+        <meta name="twitter:description" content="India's leading brand for premium kitchen containers, airtight food storage, tiffin boxes & household products." />
+        <meta name="twitter:image" content="/vh-logo.png" />
+
+        {/* Additional SEO tags */}
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Visto Homeware" />
+        <meta name="geo.region" content="IN-WB" />
+        <meta name="geo.placename" content="Kolkata" />
+        <meta name="geo.position" content="22.5726;88.3639" />
+        <meta name="ICBM" content="22.5726, 88.3639" />
+        <link rel="canonical" href="https://vistohomeware.com" />
+        
+        {/* Structured Data for Business */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "LocalBusiness",
+            "name": "Visto Homeware",
+            "image": "/vh-logo.png",
+            "description": "Premium kitchen containers, food storage solutions, tiffin boxes and household products manufacturer and retailer",
+            "address": {
+              "@type": "PostalAddress",
+              "streetAddress": "1/2, Chanditala Branch Road",
+              "addressLocality": "Kolkata",
+              "addressRegion": "West Bengal",
+              "postalCode": "700053",
+              "addressCountry": "IN"
+            },
+            "geo": {
+              "@type": "GeoCoordinates",
+              "latitude": 22.5726,
+              "longitude": 88.3639
+            },
+            "url": "https://vistohomeware.com",
+            "telephone": "+91-98301-61908",
+            "email": "smplastics@gmail.com",
+
+            "openingHours": "Mo-Sa 09:00-18:00",
+            "paymentAccepted": "Cash, Credit Card, Debit Card, UPI",
+            "currenciesAccepted": "INR",
+            "areaServed": {
+              "@type": "Country",
+              "name": "India"
+            },
+            "makesOffer": [
+              {
+                "@type": "Offer",
+                "itemOffered": {
+                  "@type": "Product",
+                  "name": "Kitchen Containers",
+                  "description": "Airtight food storage containers for kitchen organization"
+                }
+              },
+              {
+                "@type": "Offer", 
+                "itemOffered": {
+                  "@type": "Product",
+                  "name": "Tiffin Boxes",
+                  "description": "Lunch boxes and tiffin containers for office and school"
+                }
+              }
+            ]
+          })}
+        </script>
+
+        {/* Product Category Schema */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Product",
+            "name": "Feel Fresh Kitchen Container Collection",
+            "image": "/FEEL FRESH MEDIUM 800ml.jpg",
+            "description": "Premium airtight kitchen containers for food storage. BPA-free, microwave safe, and available in multiple sizes.",
+            "brand": {
+              "@type": "Brand", 
+              "name": "Visto Homeware"
+            },
+            "manufacturer": {
+              "@type": "Organization",
+              "name": "Visto Homeware"
+            },
+            "category": "Kitchen Storage Containers",
+
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.7",
+              "reviewCount": "1250"
+            }
+          })}
+        </script>
       </Head>
 
       {/* Navigation */}
@@ -452,6 +566,9 @@ export default function Home() {
                 <Link href="/products" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   Products
                 </Link>
+                <Link href="/gallery" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
+                  Gallery
+                </Link>
                 <Link href="#about" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   About
                 </Link>
@@ -482,6 +599,9 @@ export default function Home() {
                 <Link href="/products" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   Products
                 </Link>
+                <Link href="/gallery" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
+                  Gallery
+                </Link>
                 <Link href="#about" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   About
                 </Link>
@@ -504,8 +624,9 @@ export default function Home() {
               <span className="bg-gradient-to-r from-rose-400 to-burgundy-800 bg-clip-text text-transparent block">Premium Homeware</span>
             </h1>
             <p className="text-lg md:text-xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
-              Discover our curated collection of high-quality kitchen essentials, elegant dinnerware, 
-              and stylish home accessories that elevate your everyday living experience.
+              Discover our curated collection of premium kitchen containers, airtight food storage solutions, 
+              tiffin boxes, water bottles, and household products. BPA-free, microwave safe containers 
+              that elevate your kitchen organization and everyday living experience.
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
               <a 
@@ -811,6 +932,7 @@ export default function Home() {
               <ul className="space-y-2 text-gray-400">
                 <li><Link href="/" className="hover:text-white transition-colors">Home</Link></li>
                 <li><Link href="/products" className="hover:text-white transition-colors">Products</Link></li>
+                <li><Link href="/gallery" className="hover:text-white transition-colors">Gallery</Link></li>
                 <li><Link href="#about" className="hover:text-white transition-colors">About</Link></li>
                 <li><Link href="#contact" className="hover:text-white transition-colors">Contact</Link></li>
               </ul>
@@ -818,10 +940,10 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Categories</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Kitchen</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Dining</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Storage</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Decor</a></li>
+                <li><Link href="/products?category=containers" className="hover:text-white transition-colors">Kitchen Containers</Link></li>
+                <li><Link href="/products?category=container-sets" className="hover:text-white transition-colors">Container Sets</Link></li>
+                <li><Link href="/products?search=tiffin" className="hover:text-white transition-colors">Tiffin Boxes</Link></li>
+                <li><Link href="/products?search=storage" className="hover:text-white transition-colors">Storage Solutions</Link></li>
               </ul>
             </div>
             <div>

@@ -1,28 +1,96 @@
 import { useState, useEffect, useMemo } from 'react';
-import { Search, Filter, Star, Phone, Mail, MapPin, Menu, X } from 'lucide-react';
+import { Search, Filter, Star, Phone, Mail, MapPin, Menu, X, Grid, Tag, Heart } from 'lucide-react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import { products, categories, priceRanges, searchProducts } from '../data/products';
 
 const ProductCard = ({ product }) => {
+  const [isHearted, setIsHearted] = useState(false);
+  
   return (
-    <div className="bg-white shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 group">
-      <div className="aspect-square bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-burgundy-50/50 to-burgundy-100/30 group-hover:scale-110 transition-transform duration-500"></div>
-        <span className="text-gray-400 font-medium relative z-10">Product Image</span>
+    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
+      <div className="aspect-square relative overflow-hidden">
+        <Image
+          src={product.img}
+          alt={product.name}
+          fill
+          className="object-cover group-hover:scale-105 transition-transform duration-500"
+        />
+        <div className="absolute top-3 right-3 flex flex-col gap-2">
+          {product.isBestSeller && (
+            <span className="bg-red-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+              Best Seller
+            </span>
+          )}
+          {product.isPremium && (
+            <span className="bg-purple-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+              Premium
+            </span>
+          )}
+          {product.isPopular && (
+            <span className="bg-green-500 text-white text-xs px-2 py-1 rounded-full font-semibold">
+              Popular
+            </span>
+          )}
+        </div>
+        <button 
+          onClick={() => setIsHearted(!isHearted)}
+          className="absolute top-3 left-3 p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-colors"
+        >
+          <Heart className={`w-4 h-4 ${isHearted ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
+        </button>
+
       </div>
       <div className="p-6">
-        <h3 className="font-semibold text-lg mb-2 truncate text-gray-800">{product.name}</h3>
-        <p className="text-gray-600 text-sm mb-3 leading-relaxed">{product.description}</p>
-        <div className="flex items-center mb-2">
-          <Star className="w-4 h-4 text-yellow-400 fill-current" />
-          <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
-          <span className="ml-2 text-sm text-gray-400">({product.reviews} reviews)</span>
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
+            {product.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
+          </span>
+          <span className="text-xs text-gray-500">{product.material}</span>
         </div>
-        <div className="flex items-center justify-between">
-          <div className="text-burgundy-800 font-bold text-xl">₹{product.price.toLocaleString()}</div>
-          <div className="text-sm text-gray-500 font-medium">Size: {product.size}</div>
+        
+        <h3 className="font-semibold text-lg mb-2 text-gray-800 line-clamp-2 min-h-[3.5rem]">{product.name}</h3>
+        <p className="text-gray-600 text-sm mb-3 leading-relaxed line-clamp-2 min-h-[2.5rem]">{product.description}</p>
+        
+        <div className="flex items-center mb-3">
+          <div className="flex items-center">
+            <Star className="w-4 h-4 text-yellow-400 fill-current" />
+            <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
+            <span className="ml-2 text-sm text-gray-400">({product.reviews} reviews)</span>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-between mb-4">
+          <div className="text-sm text-gray-500 font-medium bg-gray-50 px-2 py-1 rounded">{product.size}</div>
+        </div>
+
+        {product.features && product.features.length > 0 && (
+          <div className="flex flex-wrap gap-1 mb-4">
+            {product.features.slice(0, 2).map((feature, index) => (
+              <span key={index} className="text-xs bg-burgundy-50 text-burgundy-700 px-2 py-1 rounded-full">
+                {feature}
+              </span>
+            ))}
+            {product.features.length > 2 && (
+              <span className="text-xs text-gray-500">+{product.features.length - 2} more</span>
+            )}
+          </div>
+        )}
+
+        <div>
+          <button 
+            onClick={() => {
+              const helpSection = document.getElementById('help-section');
+              if (helpSection) {
+                helpSection.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="w-full bg-burgundy-800 text-white py-3 px-4 rounded-lg hover:bg-burgundy-900 transition-colors font-medium"
+          >
+            Get Quote
+          </button>
         </div>
       </div>
     </div>
@@ -33,133 +101,14 @@ export default function Products() {
   const [searchTerm, setSearchTerm] = useState('');
   const [sortBy, setSortBy] = useState('name');
   const [filterCategory, setFilterCategory] = useState('all');
+  const [priceRange, setPriceRange] = useState('all');
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
   const router = useRouter();
 
-  // Sample product data - wrapped in useMemo to prevent re-creation
-  const allProducts = useMemo(() => [
-    {
-      id: 1,
-      name: "Ceramic Dinner Set",
-      description: "Elegant 12-piece ceramic dinner set perfect for family meals",
-      price: 2999,
-      rating: 4.8,
-      reviews: 124,
-      category: "dining",
-      size: "Large"
-    },
-    {
-      id: 2,
-      name: "Crystal Wine Glasses",
-      description: "Premium crystal wine glasses for special occasions",
-      price: 899,
-      rating: 4.9,
-      reviews: 87,
-      category: "dining",
-      size: "Medium"
-    },
-    {
-      id: 3,
-      name: "Wooden Cutting Board",
-      description: "Durable bamboo cutting board with juice groove",
-      price: 450,
-      rating: 4.7,
-      reviews: 203,
-      category: "kitchen",
-      size: "Large"
-    },
-    {
-      id: 4,
-      name: "Stainless Steel Cookware",
-      description: "Professional-grade stainless steel cookware set",
-      price: 1999,
-      rating: 4.8,
-      reviews: 156,
-      category: "kitchen",
-      size: "Large"
-    },
-    {
-      id: 5,
-      name: "Bamboo Kitchen Utensils",
-      description: "Eco-friendly bamboo kitchen utensil set",
-      price: 350,
-      rating: 4.6,
-      reviews: 98,
-      category: "kitchen",
-      size: "Small"
-    },
-    {
-      id: 6,
-      name: "Glass Storage Containers",
-      description: "Airtight glass storage containers with bamboo lids",
-      price: 670,
-      rating: 4.7,
-      reviews: 145,
-      category: "storage",
-      size: "Medium"
-    },
-    {
-      id: 7,
-      name: "Ceramic Coffee Mugs",
-      description: "Set of 4 handcrafted ceramic coffee mugs",
-      price: 280,
-      rating: 4.5,
-      reviews: 76,
-      category: "dining",
-      size: "Small"
-    },
-    {
-      id: 8,
-      name: "Acacia Wood Salad Bowl",
-      description: "Large acacia wood salad bowl with serving utensils",
-      price: 550,
-      rating: 4.6,
-      reviews: 89,
-      category: "dining",
-      size: "Large"
-    },
-    {
-      id: 9,
-      name: "Stainless Steel Canisters",
-      description: "Set of 3 airtight stainless steel storage canisters",
-      price: 790,
-      rating: 4.8,
-      reviews: 112,
-      category: "storage",
-      size: "Medium"
-    },
-    {
-      id: 10,
-      name: "Silicone Baking Mats",
-      description: "Non-stick silicone baking mats, set of 2",
-      price: 240,
-      rating: 4.4,
-      reviews: 67,
-      category: "kitchen",
-      size: "Large"
-    },
-    {
-      id: 11,
-      name: "Marble Serving Tray",
-      description: "Elegant marble serving tray with gold handles",
-      price: 850,
-      rating: 4.9,
-      reviews: 43,
-      category: "dining",
-      size: "Medium"
-    },
-    {
-      id: 12,
-      name: "Copper Moscow Mule Mugs",
-      description: "Authentic copper Moscow mule mugs, set of 4",
-      price: 720,
-      rating: 4.7,
-      reviews: 91,
-      category: "dining",
-      size: "Small"
-    }
-  ], []);
+  // Use imported products data
+  const allProducts = useMemo(() => products, []);
 
   // Handle URL search parameters
   useEffect(() => {
@@ -168,6 +117,9 @@ export default function Products() {
     }
     if (router.query.category) {
       setFilterCategory(router.query.category);
+    }
+    if (router.query.price) {
+      setPriceRange(router.query.price);
     }
   }, [router.query]);
 
@@ -179,15 +131,32 @@ export default function Products() {
       filtered = filtered.filter(product => product.category === filterCategory);
     }
 
-    // Filter by search term
+    // Filter by price range
+    if (priceRange !== 'all') {
+      const range = priceRanges.find(r => r.id === priceRange);
+      if (range) {
+        filtered = filtered.filter(product => 
+          product.price >= range.min && product.price <= range.max
+        );
+      }
+    }
+
+    // Enhanced search with tags and multiple fields
     if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
       filtered = filtered.filter(product =>
-        product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        product.description.toLowerCase().includes(searchTerm.toLowerCase())
+        product.name.toLowerCase().includes(searchLower) ||
+        product.description.toLowerCase().includes(searchLower) ||
+        product.tags.some(tag => tag.toLowerCase().includes(searchLower)) ||
+        product.category.toLowerCase().includes(searchLower) ||
+        product.subcategory.toLowerCase().includes(searchLower) ||
+        product.size.toLowerCase().includes(searchLower) ||
+        product.material.toLowerCase().includes(searchLower) ||
+        product.features.some(feature => feature.toLowerCase().includes(searchLower))
       );
     }
 
-    // Sort products
+    // Enhanced sorting
     filtered.sort((a, b) => {
       switch (sortBy) {
         case 'price-low':
@@ -196,24 +165,89 @@ export default function Products() {
           return b.price - a.price;
         case 'rating':
           return b.rating - a.rating;
+        case 'popularity':
+          // Sort by bestseller, popular, then reviews
+          if (a.isBestSeller && !b.isBestSeller) return -1;
+          if (!a.isBestSeller && b.isBestSeller) return 1;
+          if (a.isPopular && !b.isPopular) return -1;
+          if (!a.isPopular && b.isPopular) return 1;
+          return b.reviews - a.reviews;
+        case 'newest':
+          // Assuming newer products have higher IDs or we can add a created date
+          return a.id < b.id ? 1 : -1;
         case 'size':
-          const sizeOrder = { 'Small': 1, 'Medium': 2, 'Large': 3 };
-          return sizeOrder[a.size] - sizeOrder[b.size];
+          // Parse size values for proper sorting
+          const getSizeValue = (size) => {
+            const match = size.match(/(\d+)/);
+            return match ? parseInt(match[1]) : 0;
+          };
+          return getSizeValue(a.size) - getSizeValue(b.size);
         default:
           return a.name.localeCompare(b.name);
       }
     });
 
     setFilteredProducts(filtered);
-  }, [searchTerm, sortBy, filterCategory, allProducts]);
+  }, [searchTerm, sortBy, filterCategory, priceRange, allProducts]);
 
   return (
     <>
       <Head>
-        <title>Products - Visto Homeware</title>
-        <meta name="description" content="Browse our complete collection of premium homeware products. Kitchen essentials, elegant dinnerware, and stylish home accessories." />
+        <title>Premium Kitchen Containers & Food Storage Solutions | Visto Homeware</title>
+        <meta name="description" content="Shop premium kitchen containers, airtight food storage solutions, tiffin boxes & household products. BPA-free containers for modern kitchens. Free shipping across India." />
+        <meta name="keywords" content="kitchen containers, food storage containers, airtight containers, tiffin boxes, lunch boxes, BPA free containers, plastic containers, kitchen storage, household products, kitchenware, Feel Fresh containers, water bottles, storage solutions" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/vh-logo.png" />
+        
+        {/* Open Graph tags */}
+        <meta property="og:title" content="Premium Kitchen Containers & Food Storage Solutions | Visto Homeware" />
+        <meta property="og:description" content="Shop premium kitchen containers, airtight food storage solutions, tiffin boxes & household products. BPA-free containers for modern kitchens." />
+        <meta property="og:image" content="/vh-logo.png" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://vistohomeware.com/products" />
+        
+        {/* Twitter Card tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Premium Kitchen Containers & Food Storage Solutions" />
+        <meta name="twitter:description" content="Shop premium kitchen containers, airtight food storage solutions, tiffin boxes & household products." />
+        <meta name="twitter:image" content="/vh-logo.png" />
+
+        {/* Additional SEO tags */}
+        <meta name="robots" content="index, follow" />
+        <meta name="author" content="Visto Homeware" />
+        <link rel="canonical" href="https://vistohomeware.com/products" />
+        
+        {/* Structured Data */}
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "name": "Visto Homeware Products",
+            "description": "Premium kitchen containers, food storage solutions, and household products",
+            "url": "https://vistohomeware.com/products",
+            "mainEntity": {
+              "@type": "ItemList",
+              "numberOfItems": products.length,
+              "itemListElement": products.slice(0, 12).map((product, index) => ({
+                "@type": "Product",
+                "position": index + 1,
+                "name": product.name,
+                "description": product.description,
+                "image": product.img,
+                "brand": {
+                  "@type": "Brand",
+                  "name": "Visto Homeware"
+                },
+                "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": product.rating,
+                  "reviewCount": product.reviews
+                }
+              }))
+            }
+          })}
+        </script>
       </Head>
 
       {/* Navigation */}
@@ -237,13 +271,16 @@ export default function Products() {
             </div>
             
             {/* Desktop Menu */}
-                          <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-8">
+            <div className="hidden md:block">
+              <div className="ml-10 flex items-baseline space-x-8">
                 <Link href="/" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   Home
                 </Link>
                 <Link href="/products" className="text-burgundy-800 px-3 py-2 text-sm font-medium">
                   Products
+                </Link>
+                <Link href="/gallery" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
+                  Gallery
                 </Link>
                 <Link href="/#about" className="text-gray-700 hover:text-burgundy-800 px-3 py-2 text-sm font-medium transition-colors">
                   About
@@ -267,13 +304,16 @@ export default function Products() {
 
           {/* Mobile Menu */}
           {mobileMenuOpen && (
-                          <div className="md:hidden">
-                <div className="px-2 pt-2 pb-3 space-y-1 bg-white/90 backdrop-blur-md border-t border-white/20">
+            <div className="md:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1 bg-white/90 backdrop-blur-md border-t border-white/20">
                 <Link href="/" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   Home
                 </Link>
                 <Link href="/products" className="block px-3 py-2 text-burgundy-800 transition-colors">
                   Products
+                </Link>
+                <Link href="/gallery" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
+                  Gallery
                 </Link>
                 <Link href="/#about" className="block px-3 py-2 text-gray-700 hover:text-burgundy-800 transition-colors">
                   About
@@ -302,54 +342,128 @@ export default function Products() {
       </section>
 
       {/* Search and Filter Section */}
-      <section className="py-8 bg-white border-b">
+      <section className="py-6 bg-white border-b sticky top-16 z-40">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            {/* Search Bar */}
-            <div className="relative flex-1 max-w-md">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+          {/* Main Search Bar */}
+          <div className="flex flex-col md:flex-row gap-4 items-center justify-between mb-4">
+            <div className="relative flex-1 max-w-2xl">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
               <input
                 type="text"
-                placeholder="Search products..."
+                placeholder="Search containers, tiffin boxes, kitchen storage, water bottles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
-                className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+                className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-burgundy-500 focus:border-burgundy-500 transition-colors text-lg"
               />
             </div>
 
-            <div className="flex gap-4">
-              {/* Category Filter */}
-              <div className="flex items-center gap-2">
-                <Filter className="w-5 h-5 text-gray-400" />
-                <select
-                  value={filterCategory}
-                  onChange={(e) => setFilterCategory(e.target.value)}
-                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
-                >
-                  <option value="all">All Categories</option>
-                  <option value="kitchen">Kitchen</option>
-                  <option value="dining">Dining</option>
-                  <option value="storage">Storage</option>
-                </select>
-              </div>
-
-              {/* Sort Options */}
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            <div className="flex gap-3 items-center">
+              <button
+                onClick={() => setShowFilters(!showFilters)}
+                className="flex items-center gap-2 px-4 py-3 border border-gray-300 rounded-xl hover:bg-gray-50 transition-colors md:hidden"
               >
-                <option value="name">Sort by Name</option>
-                <option value="price-low">Price: Low to High</option>
-                <option value="price-high">Price: High to Low</option>
-                <option value="rating">Highest Rated</option>
-                <option value="size">Size</option>
-              </select>
+                <Filter className="w-4 h-4" />
+                Filters
+              </button>
+              
+              <Link 
+                href="/gallery"
+                className="flex items-center gap-2 px-4 py-3 bg-burgundy-800 text-white rounded-xl hover:bg-burgundy-900 transition-colors"
+              >
+                <Grid className="w-4 h-4" />
+                Gallery View
+              </Link>
             </div>
           </div>
 
-          <div className="mt-4 text-sm text-gray-600">
-            Showing {filteredProducts.length} of {allProducts.length} products
+          {/* Filters Row */}
+          <div className={`${showFilters ? 'block' : 'hidden md:block'} transition-all duration-300`}>
+            <div className="flex flex-wrap gap-4 items-center justify-between">
+              <div className="flex flex-wrap gap-4">
+                {/* Category Filter */}
+                <div className="flex items-center gap-2">
+                  <Tag className="w-4 h-4 text-gray-400" />
+                  <select
+                    value={filterCategory}
+                    onChange={(e) => setFilterCategory(e.target.value)}
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy-500 focus:border-transparent text-sm"
+                  >
+                    <option value="all">All Categories</option>
+                    {categories.map(category => (
+                      <option key={category.id} value={category.id}>
+                        {category.name} ({category.count})
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Price Range Filter */}
+                <select
+                  value={priceRange}
+                  onChange={(e) => setPriceRange(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy-500 focus:border-transparent text-sm"
+                >
+                  <option value="all">All Prices</option>
+                  {priceRanges.map(range => (
+                    <option key={range.id} value={range.id}>
+                      {range.name}
+                    </option>
+                  ))}
+                </select>
+
+                {/* Sort Options */}
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-burgundy-500 focus:border-transparent text-sm"
+                >
+                  <option value="name">Sort by Name</option>
+                  <option value="popularity">Most Popular</option>
+                  <option value="price-low">Price: Low to High</option>
+                  <option value="price-high">Price: High to Low</option>
+                  <option value="rating">Highest Rated</option>
+                  <option value="newest">Newest First</option>
+                  <option value="size">By Size</option>
+                </select>
+              </div>
+
+              {/* Clear Filters */}
+              {(searchTerm || filterCategory !== 'all' || priceRange !== 'all') && (
+                <button
+                  onClick={() => {
+                    setSearchTerm('');
+                    setFilterCategory('all');
+                    setPriceRange('all');
+                    setSortBy('name');
+                  }}
+                  className="text-burgundy-800 hover:text-burgundy-900 font-medium text-sm underline"
+                >
+                  Clear All Filters
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Results Info */}
+          <div className="mt-4 flex items-center justify-between text-sm text-gray-600">
+            <span>
+              Showing {filteredProducts.length} of {allProducts.length} products
+              {searchTerm && ` for "${searchTerm}"`}
+            </span>
+            
+            {/* Quick Filter Tags */}
+            <div className="hidden lg:flex items-center gap-2">
+              <span className="text-xs text-gray-500">Quick filters:</span>
+              {['containers', 'tiffin', 'storage', 'water bottles'].map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => setSearchTerm(tag)}
+                  className="text-xs bg-gray-100 hover:bg-burgundy-100 text-gray-700 hover:text-burgundy-800 px-2 py-1 rounded-full transition-colors"
+                >
+                  {tag}
+                </button>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -382,7 +496,7 @@ export default function Products() {
       </section>
 
       {/* Contact Section */}
-      <section className="py-16 bg-white">
+      <section id="help-section" className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
