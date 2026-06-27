@@ -387,19 +387,22 @@ const Gallery = () => {
             <div>
               <h4 className="text-lg font-semibold mb-4">Categories</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/products?category=containers" className="hover:text-white transition-colors">Kitchen Containers</Link></li>
+                <li><Link href="/products?category=containers" className="hover:text-white transition-colors">Food Containers</Link></li>
+                <li><Link href="/products?category=lunch-boxes" className="hover:text-white transition-colors">Lunch Boxes &amp; Tiffins</Link></li>
+                <li><Link href="/products?category=water-bottles" className="hover:text-white transition-colors">Water Bottles</Link></li>
                 <li><Link href="/products?category=container-sets" className="hover:text-white transition-colors">Container Sets</Link></li>
-                <li><Link href="/products?search=tiffin" className="hover:text-white transition-colors">Tiffin Boxes</Link></li>
-                <li><Link href="/products?search=storage" className="hover:text-white transition-colors">Storage Solutions</Link></li>
+                <li><Link href="/products?category=drinkware" className="hover:text-white transition-colors">Drinkware</Link></li>
+                <li><Link href="/products?category=casseroles" className="hover:text-white transition-colors">Casseroles</Link></li>
+                <li><Link href="/products?category=household" className="hover:text-white transition-colors">Household</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>+91 98301 61908</li>
                 <li>+91 98310 33736</li>
                 <li>smplastics@gmail.com</li>
-                <li>1/2, Chanditala Branch Road<br />Kolkata, PIN-700053, W.B.</li>
+                <li>1/2, Chanditala Branch Road<br />Kolkata, PIN-700053, W.B.<br />
+                <span className="text-sm text-gray-500">GSTIN: 19ABTCS1528A1Z9</span></li>
               </ul>
             </div>
           </div>

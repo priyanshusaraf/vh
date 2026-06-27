@@ -312,12 +312,13 @@ const ProductCarousel = () => {
                 style={{ width: `${getItemWidth()}%` }}
               >
                               <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 hover:-translate-y-1 mx-auto max-w-sm group">
-                <div className="aspect-square relative overflow-hidden">
+                <div className="aspect-square relative overflow-hidden bg-gray-50">
                   <Image
                     src={product.image}
                     alt={product.name}
                     fill
-                    className="object-cover group-hover:scale-105 transition-transform duration-500"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
+                    className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
                 <div className="p-4 md:p-6">
@@ -479,7 +480,7 @@ export default function Home() {
               "longitude": 88.3639
             },
             "url": "https://vistohomeware.com",
-            "telephone": "+91-98301-61908",
+            "telephone": "+91-98310-33736",
             "email": "smplastics@gmail.com",
 
             "openingHours": "Mo-Sa 09:00-18:00",
@@ -679,7 +680,7 @@ export default function Home() {
               <div className="bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl p-8 text-center group hover:bg-white/15 transition-all duration-300 hover:scale-105">
                 <div className="absolute inset-0 bg-gradient-to-r from-red-400/20 to-red-600/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 <div className="relative z-10">
-                  <AnimatedCounter target={500} label="Products" suffix="+" />
+                  <AnimatedCounter target={125} label="Products" suffix="+" />
                 </div>
               </div>
             </div>
@@ -840,7 +841,7 @@ export default function Home() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center group">
               <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
                 <Mail className="w-10 h-10 text-burgundy-800" />
@@ -849,16 +850,6 @@ export default function Home() {
               <p className="text-gray-600 mb-2">Quick response guaranteed</p>
               <a href="mailto:info@vistohomeware.com" className="text-burgundy-800 font-semibold hover:underline">
                 info@vistohomeware.com
-              </a>
-            </div>
-            <div className="text-center group">
-              <div className="w-20 h-20 bg-gradient-to-br from-burgundy-100 to-burgundy-200 flex items-center justify-center mx-auto mb-6 float-icon group-hover:shadow-lg transition-shadow">
-                <Phone className="w-10 h-10 text-burgundy-800" />
-              </div>
-              <h3 className="text-xl font-bold mb-3 text-gray-800">Raj Agarwal</h3>
-              <p className="text-gray-600 mb-2">Business Inquiries</p>
-              <a href="tel:+919830161908" className="text-burgundy-800 font-semibold hover:underline text-lg">
-                +91 98301 61908
               </a>
             </div>
             <div className="text-center group">
@@ -936,10 +927,13 @@ export default function Home() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Categories</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><Link href="/products?category=containers" className="hover:text-white transition-colors">Kitchen Containers</Link></li>
+                <li><Link href="/products?category=containers" className="hover:text-white transition-colors">Food Containers</Link></li>
+                <li><Link href="/products?category=lunch-boxes" className="hover:text-white transition-colors">Lunch Boxes &amp; Tiffins</Link></li>
+                <li><Link href="/products?category=water-bottles" className="hover:text-white transition-colors">Water Bottles</Link></li>
                 <li><Link href="/products?category=container-sets" className="hover:text-white transition-colors">Container Sets</Link></li>
-                <li><Link href="/products?search=tiffin" className="hover:text-white transition-colors">Tiffin Boxes</Link></li>
-                <li><Link href="/products?search=storage" className="hover:text-white transition-colors">Storage Solutions</Link></li>
+                <li><Link href="/products?category=drinkware" className="hover:text-white transition-colors">Drinkware</Link></li>
+                <li><Link href="/products?category=casseroles" className="hover:text-white transition-colors">Casseroles</Link></li>
+                <li><Link href="/products?category=household" className="hover:text-white transition-colors">Household</Link></li>
               </ul>
             </div>
             <div>
@@ -948,7 +942,7 @@ export default function Home() {
                 <li>+91 98310 33736</li>
                 <li>info@vistohomeware.com</li>
                 <li>1/2, Chanditala Branch Road<br />Kolkata, PIN-700053, W.B.<br />
-                <span className="text-sm text-gray-500">GSTIN: 19AEXPA3954Q1ZJ</span></li>
+                <span className="text-sm text-gray-500">GSTIN: 19ABTCS1528A1Z9</span></li>
               </ul>
             </div>
           </div>

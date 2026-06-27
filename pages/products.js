@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo, useCallback } from 'react';
 import { Search, Filter, Star, Phone, Mail, MapPin, Menu, X, Grid, Tag, Heart } from 'lucide-react';
 import Head from 'next/head';
 import Link from 'next/link';
@@ -6,17 +6,47 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { products, categories, priceRanges, searchProducts } from '../data/products';
 
-const ProductCard = ({ product }) => {
-  const [isHearted, setIsHearted] = useState(false);
-  
+// Persisted "likes" backed by localStorage. State is hydrated after mount so
+// the server and first client render agree (no hydration mismatch).
+function useLikes() {
+  const [liked, setLiked] = useState(() => new Set());
+
+  useEffect(() => {
+    try {
+      const raw = window.localStorage.getItem('visto:liked');
+      if (raw) setLiked(new Set(JSON.parse(raw)));
+    } catch (e) {
+      // storage unavailable or corrupt — start with no likes
+    }
+  }, []);
+
+  const toggleLike = useCallback((id) => {
+    setLiked((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      try {
+        window.localStorage.setItem('visto:liked', JSON.stringify([...next]));
+      } catch (e) {
+        // ignore write failures (e.g. private mode quota)
+      }
+      return next;
+    });
+  }, []);
+
+  return { liked, toggleLike };
+}
+
+const ProductCard = ({ product, isLiked, onToggleLike }) => {
   return (
-    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group">
-      <div className="aspect-square relative overflow-hidden">
+    <div className="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group flex flex-col h-full">
+      <div className="aspect-square relative overflow-hidden bg-gray-50">
         <Image
           src={product.img}
           alt={product.name}
           fill
-          className="object-cover group-hover:scale-105 transition-transform duration-500"
+          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+          className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
         />
         <div className="absolute top-3 right-3 flex flex-col gap-2">
           {product.isBestSeller && (
@@ -35,15 +65,17 @@ const ProductCard = ({ product }) => {
             </span>
           )}
         </div>
-        <button 
-          onClick={() => setIsHearted(!isHearted)}
+        <button
+          onClick={onToggleLike}
+          aria-label={isLiked ? 'Remove from favorites' : 'Add to favorites'}
+          aria-pressed={isLiked}
           className="absolute top-3 left-3 p-2 rounded-full bg-white/80 backdrop-blur-sm hover:bg-white transition-colors"
         >
-          <Heart className={`w-4 h-4 ${isHearted ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
+          <Heart className={`w-4 h-4 ${isLiked ? 'text-red-500 fill-current' : 'text-gray-600'}`} />
         </button>
 
       </div>
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
             {product.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
@@ -52,10 +84,10 @@ const ProductCard = ({ product }) => {
             <span className="text-xs text-gray-500">{product.material}</span>
           )}
         </div>
-        
+
         <h3 className="font-semibold text-lg mb-2 text-gray-800 line-clamp-2 min-h-[3.5rem]">{product.name}</h3>
         <p className="text-gray-600 text-sm mb-3 leading-relaxed line-clamp-2 min-h-[2.5rem]">{product.description}</p>
-        
+
         {product.rating && (
           <div className="flex items-center mb-3">
             <div className="flex items-center">
@@ -87,8 +119,8 @@ const ProductCard = ({ product }) => {
           </div>
         )}
 
-        <div>
-          <button 
+        <div className="mt-auto pt-2">
+          <button
             onClick={() => {
               const helpSection = document.getElementById('help-section');
               if (helpSection) {
@@ -113,6 +145,8 @@ export default function Products() {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
+  const { liked, toggleLike } = useLikes();
   const router = useRouter();
 
   // Use imported products data
@@ -133,6 +167,11 @@ export default function Products() {
 
   useEffect(() => {
     let filtered = allProducts;
+
+    // Show only liked products when the Favorites filter is active
+    if (showFavoritesOnly) {
+      filtered = filtered.filter(product => liked.has(product.id));
+    }
 
     // Filter by category
     if (filterCategory !== 'all') {
@@ -196,7 +235,7 @@ export default function Products() {
     });
 
     setFilteredProducts(filtered);
-  }, [searchTerm, sortBy, filterCategory, priceRange, allProducts]);
+  }, [searchTerm, sortBy, filterCategory, priceRange, allProducts, showFavoritesOnly, liked]);
 
   return (
     <>
@@ -419,16 +458,31 @@ export default function Products() {
                   <option value="newest">Newest First</option>
                   <option value="size">By Size</option>
                 </select>
+
+                {/* Favorites Filter */}
+                <button
+                  onClick={() => setShowFavoritesOnly(v => !v)}
+                  aria-pressed={showFavoritesOnly}
+                  className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-sm font-medium transition-colors ${
+                    showFavoritesOnly
+                      ? 'bg-burgundy-800 border-burgundy-800 text-white'
+                      : 'border-gray-300 text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <Heart className={`w-4 h-4 ${showFavoritesOnly ? 'fill-current' : ''}`} />
+                  Favorites{liked.size > 0 ? ` (${liked.size})` : ''}
+                </button>
               </div>
 
               {/* Clear Filters */}
-              {(searchTerm || filterCategory !== 'all' || priceRange !== 'all') && (
+              {(searchTerm || filterCategory !== 'all' || priceRange !== 'all' || showFavoritesOnly) && (
                 <button
                   onClick={() => {
                     setSearchTerm('');
                     setFilterCategory('all');
                     setPriceRange('all');
                     setSortBy('name');
+                    setShowFavoritesOnly(false);
                   }}
                   className="text-burgundy-800 hover:text-burgundy-900 font-medium text-sm underline"
                 >
@@ -467,12 +521,17 @@ export default function Products() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {filteredProducts.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-500 text-lg">No products found matching your criteria.</p>
+              <p className="text-gray-500 text-lg">
+                {showFavoritesOnly && liked.size === 0
+                  ? 'You have not added any favorites yet. Tap the heart on a product to save it here.'
+                  : 'No products found matching your criteria.'}
+              </p>
               <button
                 onClick={() => {
                   setSearchTerm('');
                   setFilterCategory('all');
                   setSortBy('name');
+                  setShowFavoritesOnly(false);
                 }}
                 className="mt-4 text-burgundy-800 hover:text-burgundy-900 font-medium"
               >
@@ -482,7 +541,12 @@ export default function Products() {
           ) : (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
               {filteredProducts.map((product) => (
-                <ProductCard key={product.id} product={product} />
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  isLiked={liked.has(product.id)}
+                  onToggleLike={() => toggleLike(product.id)}
+                />
               ))}
             </div>
           )}
@@ -508,8 +572,8 @@ export default function Products() {
               </div>
               <h3 className="text-xl font-bold mb-3 text-gray-800">Call Us</h3>
               <p className="text-gray-600 mb-2">Mon-Fri 9AM-6PM</p>
-              <a href="tel:+918336900588" className="text-burgundy-800 font-semibold hover:underline text-lg">
-                +91 83369 00588
+              <a href="tel:+919831033736" className="text-burgundy-800 font-semibold hover:underline text-lg">
+                +91 98310 33736
               </a>
             </div>
             <div className="text-center group">
@@ -571,19 +635,22 @@ export default function Products() {
             <div>
               <h4 className="text-lg font-semibold mb-4">Categories</h4>
               <ul className="space-y-2 text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Kitchen</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Dining</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Storage</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">Decor</a></li>
+                <li><Link href="/products?category=containers" className="hover:text-white transition-colors">Food Containers</Link></li>
+                <li><Link href="/products?category=lunch-boxes" className="hover:text-white transition-colors">Lunch Boxes &amp; Tiffins</Link></li>
+                <li><Link href="/products?category=water-bottles" className="hover:text-white transition-colors">Water Bottles</Link></li>
+                <li><Link href="/products?category=container-sets" className="hover:text-white transition-colors">Container Sets</Link></li>
+                <li><Link href="/products?category=drinkware" className="hover:text-white transition-colors">Drinkware</Link></li>
+                <li><Link href="/products?category=casseroles" className="hover:text-white transition-colors">Casseroles</Link></li>
+                <li><Link href="/products?category=household" className="hover:text-white transition-colors">Household</Link></li>
               </ul>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-4">Contact Info</h4>
               <ul className="space-y-2 text-gray-400">
-                <li>+91 83369 00588</li>
+                <li>+91 98310 33736</li>
                 <li>smplastics@gmail.com</li>
                 <li>1/2, Chanditala Branch Road<br />Kolkata, PIN-700053, W.B.<br />
-                <span className="text-sm text-gray-500">GSTIN: 19AEXPA3954Q1ZJ</span></li>
+                <span className="text-sm text-gray-500">GSTIN: 19ABTCS1528A1Z9</span></li>
               </ul>
             </div>
           </div>
