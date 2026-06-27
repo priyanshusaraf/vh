@@ -48,23 +48,31 @@ const ProductCard = ({ product }) => {
           <span className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full">
             {product.category.replace('-', ' ').replace(/\b\w/g, l => l.toUpperCase())}
           </span>
-          <span className="text-xs text-gray-500">{product.material}</span>
+          {product.material && (
+            <span className="text-xs text-gray-500">{product.material}</span>
+          )}
         </div>
         
         <h3 className="font-semibold text-lg mb-2 text-gray-800 line-clamp-2 min-h-[3.5rem]">{product.name}</h3>
         <p className="text-gray-600 text-sm mb-3 leading-relaxed line-clamp-2 min-h-[2.5rem]">{product.description}</p>
         
-        <div className="flex items-center mb-3">
-          <div className="flex items-center">
-            <Star className="w-4 h-4 text-yellow-400 fill-current" />
-            <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
-            <span className="ml-2 text-sm text-gray-400">({product.reviews} reviews)</span>
+        {product.rating && (
+          <div className="flex items-center mb-3">
+            <div className="flex items-center">
+              <Star className="w-4 h-4 text-yellow-400 fill-current" />
+              <span className="ml-1 text-sm text-gray-600 font-medium">{product.rating}</span>
+              {product.reviews && (
+                <span className="ml-2 text-sm text-gray-400">({product.reviews} reviews)</span>
+              )}
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="flex items-center justify-between mb-4">
-          <div className="text-sm text-gray-500 font-medium bg-gray-50 px-2 py-1 rounded">{product.size}</div>
-        </div>
+        {product.size && (
+          <div className="flex items-center justify-between mb-4">
+            <div className="text-sm text-gray-500 font-medium bg-gray-50 px-2 py-1 rounded">{product.size}</div>
+          </div>
+        )}
 
         {product.features && product.features.length > 0 && (
           <div className="flex flex-wrap gap-1 mb-4">
@@ -164,14 +172,14 @@ export default function Products() {
         case 'price-high':
           return b.price - a.price;
         case 'rating':
-          return b.rating - a.rating;
+          return (b.rating || 0) - (a.rating || 0);
         case 'popularity':
           // Sort by bestseller, popular, then reviews
           if (a.isBestSeller && !b.isBestSeller) return -1;
           if (!a.isBestSeller && b.isBestSeller) return 1;
           if (a.isPopular && !b.isPopular) return -1;
           if (!a.isPopular && b.isPopular) return 1;
-          return b.reviews - a.reviews;
+          return (b.reviews || 0) - (a.reviews || 0);
         case 'newest':
           // Assuming newer products have higher IDs or we can add a created date
           return a.id < b.id ? 1 : -1;

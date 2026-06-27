@@ -306,9 +306,11 @@ const Gallery = () => {
                       </div>
                       <div className="p-4">
                         <h3 className="font-semibold text-lg mb-2 text-gray-800 line-clamp-2">{item.name}</h3>
-                        <div className="flex items-center justify-center">
-                          <span className="text-gray-500 text-sm bg-gray-100 px-2 py-1 rounded">{item.size}</span>
-                        </div>
+                        {item.size && (
+                          <div className="flex items-center justify-center">
+                            <span className="text-gray-500 text-sm bg-gray-100 px-2 py-1 rounded">{item.size}</span>
+                          </div>
+                        )}
                         <Link 
                           href={item.url}
                           className="mt-3 block w-full bg-burgundy-800 text-white py-2 px-4 rounded-lg text-center hover:bg-burgundy-900 transition-colors font-medium"
