@@ -42,3 +42,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# internal price list (kept local, not served on the public site)
+public/additional-products/*.xlsx

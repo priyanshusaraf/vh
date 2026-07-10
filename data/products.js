@@ -3646,7 +3646,707 @@ export const products = [
       "description": "Pacific Jug 2000 ml With 4 Glasses — leak-resistant hydration for home, office, and travel.",
       "keywords": "pacific, jug, 2000, with, glasses, water bottles, water jugs"
     }
-  }
+  },
+
+  // ===== Additional Products (from public/additional-products/ + Visto Homeware Price List.xlsx) =====
+  {
+    "id": "ch-5",
+    "name": "Classy Tea Cup",
+    "description": "Classy Tea Cup — premium 125ml drinkware for your everyday tea and coffee.",
+    "category": "drinkware",
+    "subcategory": "tea-cups",
+    "size": "125ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/CH-5.jpeg",
+    "images": [
+      "/additional-products/CH-5.jpeg"
+    ],
+    "tags": [
+      "classy",
+      "tea",
+      "cup",
+      "drinkware",
+      "tea cups"
+    ],
+    "seo": {
+      "title": "Classy Tea Cup | Visto Homeware",
+      "description": "Classy Tea Cup — premium 125ml drinkware for your everyday tea and coffee.",
+      "keywords": "classy, tea, cup, drinkware, tea cups"
+    }
+  },
+  {
+    "id": "ch-6",
+    "name": "Happy Mug",
+    "description": "Happy Mug — premium 200ml drinkware for your everyday tea and coffee.",
+    "category": "drinkware",
+    "subcategory": "mugs",
+    "size": "200ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/CH-6.jpeg",
+    "images": [
+      "/additional-products/CH-6.jpeg"
+    ],
+    "tags": [
+      "happy",
+      "mug",
+      "drinkware",
+      "mugs"
+    ],
+    "seo": {
+      "title": "Happy Mug | Visto Homeware",
+      "description": "Happy Mug — premium 200ml drinkware for your everyday tea and coffee.",
+      "keywords": "happy, mug, drinkware, mugs"
+    }
+  },
+  {
+    "id": "ch-7",
+    "name": "Morning Coffee Mug",
+    "description": "Morning Coffee Mug — premium 250ml drinkware for your everyday tea and coffee.",
+    "category": "drinkware",
+    "subcategory": "mugs",
+    "size": "250ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/CH-7.jpeg",
+    "images": [
+      "/additional-products/CH-7.jpeg"
+    ],
+    "tags": [
+      "morning",
+      "coffee",
+      "mug",
+      "drinkware",
+      "mugs"
+    ],
+    "seo": {
+      "title": "Morning Coffee Mug | Visto Homeware",
+      "description": "Morning Coffee Mug — premium 250ml drinkware for your everyday tea and coffee.",
+      "keywords": "morning, coffee, mug, drinkware, mugs"
+    }
+  },
+  {
+    "id": "ch-8",
+    "name": "Diamond Coffee Mug",
+    "description": "Diamond Coffee Mug — premium 300ml drinkware for your everyday tea and coffee.",
+    "category": "drinkware",
+    "subcategory": "mugs",
+    "size": "300ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/CH-8.jpeg",
+    "images": [
+      "/additional-products/CH-8.jpeg"
+    ],
+    "tags": [
+      "diamond",
+      "coffee",
+      "mug",
+      "drinkware",
+      "mugs"
+    ],
+    "seo": {
+      "title": "Diamond Coffee Mug | Visto Homeware",
+      "description": "Diamond Coffee Mug — premium 300ml drinkware for your everyday tea and coffee.",
+      "keywords": "diamond, coffee, mug, drinkware, mugs"
+    }
+  },
+  {
+    "id": "ch-9",
+    "name": "Regular Coffee Mug",
+    "description": "Regular Coffee Mug — premium 300ml drinkware for your everyday tea and coffee.",
+    "category": "drinkware",
+    "subcategory": "mugs",
+    "size": "300ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/CH-9.jpeg",
+    "images": [
+      "/additional-products/CH-9.jpeg"
+    ],
+    "tags": [
+      "regular",
+      "coffee",
+      "mug",
+      "drinkware",
+      "mugs"
+    ],
+    "seo": {
+      "title": "Regular Coffee Mug | Visto Homeware",
+      "description": "Regular Coffee Mug — premium 300ml drinkware for your everyday tea and coffee.",
+      "keywords": "regular, coffee, mug, drinkware, mugs"
+    }
+  },
+  {
+    "id": "ch-10",
+    "name": "Snoopy Coffee Mug",
+    "description": "Snoopy Coffee Mug — premium 300ml drinkware for your everyday tea and coffee.",
+    "category": "drinkware",
+    "subcategory": "mugs",
+    "size": "300ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/CH-10.jpeg",
+    "images": [
+      "/additional-products/CH-10.jpeg"
+    ],
+    "tags": [
+      "snoopy",
+      "coffee",
+      "mug",
+      "drinkware",
+      "mugs"
+    ],
+    "seo": {
+      "title": "Snoopy Coffee Mug | Visto Homeware",
+      "description": "Snoopy Coffee Mug — premium 300ml drinkware for your everyday tea and coffee.",
+      "keywords": "snoopy, coffee, mug, drinkware, mugs"
+    }
+  },
+  {
+    "id": "cs-5",
+    "name": "Serving Bowl Set",
+    "description": "Serving Bowl Set — serve meals in style and keep them warm at the table.",
+    "category": "casseroles",
+    "subcategory": "serving-bowls",
+    "size": "1000ml, 1400ml, 2200ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/CS-5.jpeg",
+    "images": [
+      "/additional-products/CS-5.jpeg"
+    ],
+    "tags": [
+      "serving",
+      "bowl",
+      "casseroles",
+      "serving bowls"
+    ],
+    "seo": {
+      "title": "Serving Bowl Set | Visto Homeware",
+      "description": "Serving Bowl Set — serve meals in style and keep them warm at the table.",
+      "keywords": "serving, bowl, casseroles, serving bowls"
+    }
+  },
+  {
+    "id": "cs-6-7",
+    "name": "Plastic Casserole (Small & Big)",
+    "description": "Plastic Casserole (Small & Big) — serve meals in style and keep them warm at the table.",
+    "category": "casseroles",
+    "subcategory": "casserole-sets",
+    "size": "Small & Big Set",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/CS-(6,7).jpeg",
+    "images": [
+      "/additional-products/CS-(6,7).jpeg"
+    ],
+    "tags": [
+      "plastic",
+      "casserole",
+      "small",
+      "big",
+      "casseroles",
+      "casserole sets"
+    ],
+    "seo": {
+      "title": "Plastic Casserole (Small & Big) | Visto Homeware",
+      "description": "Plastic Casserole (Small & Big) — serve meals in style and keep them warm at the table.",
+      "keywords": "plastic, casserole, small, big, casseroles, casserole sets"
+    }
+  },
+  {
+    "id": "d-13",
+    "name": "Window Container (2 Pc Set)",
+    "description": "Window Container (2 Pc Set) — airtight storage that keeps food fresh and your kitchen organized.",
+    "category": "container-sets",
+    "subcategory": "food-storage",
+    "size": "2 Pc Set",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/D-13.jpeg",
+    "images": [
+      "/additional-products/D-13.jpeg"
+    ],
+    "tags": [
+      "window",
+      "container",
+      "sets",
+      "food storage"
+    ],
+    "seo": {
+      "title": "Window Container (2 Pc Set) | Visto Homeware",
+      "description": "Window Container (2 Pc Set) — airtight storage that keeps food fresh and your kitchen organized.",
+      "keywords": "window, container, sets, food storage"
+    }
+  },
+  {
+    "id": "d-14",
+    "name": "Cosmic 4 Section Container",
+    "description": "Cosmic 4 Section Container — airtight storage that keeps food fresh and your kitchen organized.",
+    "category": "containers",
+    "subcategory": "food-storage",
+    "size": "2000ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/D-14.jpeg",
+    "images": [
+      "/additional-products/D-14.jpeg"
+    ],
+    "tags": [
+      "cosmic",
+      "section",
+      "container",
+      "containers",
+      "food storage"
+    ],
+    "seo": {
+      "title": "Cosmic 4 Section Container | Visto Homeware",
+      "description": "Cosmic 4 Section Container — airtight storage that keeps food fresh and your kitchen organized.",
+      "keywords": "cosmic, section, container, containers, food storage"
+    }
+  },
+  {
+    "id": "g-24",
+    "name": "Storage Combo Set",
+    "description": "Storage Combo Set — airtight storage that keeps food fresh and your kitchen organized.",
+    "category": "container-sets",
+    "subcategory": "food-storage",
+    "size": "",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/G-24.png",
+    "images": [
+      "/additional-products/G-24.png"
+    ],
+    "tags": [
+      "storage",
+      "combo",
+      "container",
+      "sets",
+      "food storage"
+    ],
+    "seo": {
+      "title": "Storage Combo Set | Visto Homeware",
+      "description": "Storage Combo Set — airtight storage that keeps food fresh and your kitchen organized.",
+      "keywords": "storage, combo, container, sets, food storage"
+    }
+  },
+  {
+    "id": "g-25",
+    "name": "Freezy Container (3 Pc Set)",
+    "description": "Freezy Container (3 Pc Set) — airtight storage that keeps food fresh and your kitchen organized.",
+    "category": "container-sets",
+    "subcategory": "food-storage",
+    "size": "3 Pc Set",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/G-25.jpeg",
+    "images": [
+      "/additional-products/G-25.jpeg"
+    ],
+    "tags": [
+      "freezy",
+      "container",
+      "sets",
+      "food storage"
+    ],
+    "seo": {
+      "title": "Freezy Container (3 Pc Set) | Visto Homeware",
+      "description": "Freezy Container (3 Pc Set) — airtight storage that keeps food fresh and your kitchen organized.",
+      "keywords": "freezy, container, sets, food storage"
+    }
+  },
+  {
+    "id": "g-26",
+    "name": "Bingo 3 Pc Set",
+    "description": "Bingo 3 Pc Set — airtight storage that keeps food fresh and your kitchen organized.",
+    "category": "container-sets",
+    "subcategory": "food-storage",
+    "size": "300ml, 600ml, 1000ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/G-26.jpeg",
+    "images": [
+      "/additional-products/G-26.jpeg"
+    ],
+    "tags": [
+      "bingo",
+      "container",
+      "sets",
+      "food storage"
+    ],
+    "seo": {
+      "title": "Bingo 3 Pc Set | Visto Homeware",
+      "description": "Bingo 3 Pc Set — airtight storage that keeps food fresh and your kitchen organized.",
+      "keywords": "bingo, container, sets, food storage"
+    }
+  },
+  {
+    "id": "g-27",
+    "name": "3 Compartments Zesty Combo",
+    "description": "3 Compartments Zesty Combo — leak-resistant lunch storage, perfect for office and school.",
+    "category": "lunch-boxes",
+    "subcategory": "tiffins",
+    "size": "3 Compartments",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/G-27.jpeg",
+    "images": [
+      "/additional-products/G-27.jpeg"
+    ],
+    "tags": [
+      "compartments",
+      "zesty",
+      "combo",
+      "lunch",
+      "boxes",
+      "tiffins"
+    ],
+    "seo": {
+      "title": "3 Compartments Zesty Combo | Visto Homeware",
+      "description": "3 Compartments Zesty Combo — leak-resistant lunch storage, perfect for office and school.",
+      "keywords": "compartments, zesty, combo, lunch, boxes, tiffins"
+    }
+  },
+  {
+    "id": "g-28",
+    "name": "Mini Lunch Box",
+    "description": "Mini Lunch Box — leak-resistant lunch storage, perfect for office and school.",
+    "category": "lunch-boxes",
+    "subcategory": "tiffins",
+    "size": "",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/G-28.jpeg",
+    "images": [
+      "/additional-products/G-28.jpeg"
+    ],
+    "tags": [
+      "mini",
+      "lunch",
+      "box",
+      "boxes",
+      "tiffins"
+    ],
+    "seo": {
+      "title": "Mini Lunch Box | Visto Homeware",
+      "description": "Mini Lunch Box — leak-resistant lunch storage, perfect for office and school.",
+      "keywords": "mini, lunch, box, boxes, tiffins"
+    }
+  },
+  {
+    "id": "kit-1-2",
+    "name": "First Aid Kit (Small & Big)",
+    "description": "First Aid Kit (Small & Big) — keep first-aid essentials organized and within reach.",
+    "category": "household",
+    "subcategory": "first-aid",
+    "size": "Small & Big",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/KIT-(1,2).jpeg",
+    "images": [
+      "/additional-products/KIT-(1,2).jpeg"
+    ],
+    "tags": [
+      "first",
+      "aid",
+      "kit",
+      "small",
+      "big",
+      "household",
+      "first aid"
+    ],
+    "seo": {
+      "title": "First Aid Kit (Small & Big) | Visto Homeware",
+      "description": "First Aid Kit (Small & Big) — keep first-aid essentials organized and within reach.",
+      "keywords": "first, aid, kit, small, big, household, first aid"
+    }
+  },
+  {
+    "id": "st-9-10",
+    "name": "Multipurpose Stand (Round & Square)",
+    "description": "Multipurpose Stand (Round & Square) — smart organization for a tidy, clutter-free home.",
+    "category": "household",
+    "subcategory": "organizers",
+    "size": "Round & Square",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/ST-(9,10).jpeg",
+    "images": [
+      "/additional-products/ST-(9,10).jpeg"
+    ],
+    "tags": [
+      "multipurpose",
+      "stand",
+      "round",
+      "square",
+      "household",
+      "organizers"
+    ],
+    "seo": {
+      "title": "Multipurpose Stand (Round & Square) | Visto Homeware",
+      "description": "Multipurpose Stand (Round & Square) — smart organization for a tidy, clutter-free home.",
+      "keywords": "multipurpose, stand, round, square, household, organizers"
+    }
+  },
+  {
+    "id": "st-11",
+    "name": "Stationary Premium Drawer",
+    "description": "Stationary Premium Drawer — smart organization for a tidy, clutter-free home.",
+    "category": "household",
+    "subcategory": "organizers",
+    "size": "",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/ST-11.jpeg",
+    "images": [
+      "/additional-products/ST-11.jpeg"
+    ],
+    "tags": [
+      "stationary",
+      "premium",
+      "drawer",
+      "household",
+      "organizers"
+    ],
+    "seo": {
+      "title": "Stationary Premium Drawer | Visto Homeware",
+      "description": "Stationary Premium Drawer — smart organization for a tidy, clutter-free home.",
+      "keywords": "stationary, premium, drawer, household, organizers"
+    }
+  },
+  {
+    "id": "st-12",
+    "name": "Stationary Organiser (2 Layers)",
+    "description": "Stationary Organiser (2 Layers) — smart organization for a tidy, clutter-free home.",
+    "category": "household",
+    "subcategory": "organizers",
+    "size": "2 Layers",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/ST-12.jpeg",
+    "images": [
+      "/additional-products/ST-12.jpeg"
+    ],
+    "tags": [
+      "stationary",
+      "organiser",
+      "layers",
+      "household",
+      "organizers"
+    ],
+    "seo": {
+      "title": "Stationary Organiser (2 Layers) | Visto Homeware",
+      "description": "Stationary Organiser (2 Layers) — smart organization for a tidy, clutter-free home.",
+      "keywords": "stationary, organiser, layers, household, organizers"
+    }
+  },
+  {
+    "id": "wa-26",
+    "name": "Fruit Infuser Water Bottle",
+    "description": "Fruit Infuser Water Bottle — durable, leak-proof hydration for home, gym, and travel.",
+    "category": "water-bottles",
+    "subcategory": "bottles",
+    "size": "800ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/WA-26.jpeg",
+    "images": [
+      "/additional-products/WA-26.jpeg"
+    ],
+    "tags": [
+      "fruit",
+      "infuser",
+      "water",
+      "bottle",
+      "bottles"
+    ],
+    "seo": {
+      "title": "Fruit Infuser Water Bottle | Visto Homeware",
+      "description": "Fruit Infuser Water Bottle — durable, leak-proof hydration for home, gym, and travel.",
+      "keywords": "fruit, infuser, water, bottle, bottles"
+    }
+  },
+  {
+    "id": "wa-27",
+    "name": "Gym Sipper Bottle",
+    "description": "Gym Sipper Bottle — durable, leak-proof hydration for home, gym, and travel.",
+    "category": "water-bottles",
+    "subcategory": "bottles",
+    "size": "900ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/WA-27.jpeg",
+    "images": [
+      "/additional-products/WA-27.jpeg"
+    ],
+    "tags": [
+      "gym",
+      "sipper",
+      "bottle",
+      "water",
+      "bottles"
+    ],
+    "seo": {
+      "title": "Gym Sipper Bottle | Visto Homeware",
+      "description": "Gym Sipper Bottle — durable, leak-proof hydration for home, gym, and travel.",
+      "keywords": "gym, sipper, bottle, water, bottles"
+    }
+  },
+  {
+    "id": "wa-28",
+    "name": "Jelly Glass",
+    "description": "Jelly Glass — a stylish 800ml glass for everyday sipping and serving.",
+    "category": "drinkware",
+    "subcategory": "glasses",
+    "size": "800ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/WA-28.jpeg",
+    "images": [
+      "/additional-products/WA-28.jpeg"
+    ],
+    "tags": [
+      "jelly",
+      "glass",
+      "drinkware",
+      "glasses"
+    ],
+    "seo": {
+      "title": "Jelly Glass | Visto Homeware",
+      "description": "Jelly Glass — a stylish 800ml glass for everyday sipping and serving.",
+      "keywords": "jelly, glass, drinkware, glasses"
+    }
+  },
+  {
+    "id": "wa-29",
+    "name": "Magic Sipper Glass",
+    "description": "Magic Sipper Glass — a stylish 400ml glass for everyday sipping and serving.",
+    "category": "drinkware",
+    "subcategory": "glasses",
+    "size": "400ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/WA-29.jpeg",
+    "images": [
+      "/additional-products/WA-29.jpeg"
+    ],
+    "tags": [
+      "magic",
+      "sipper",
+      "glass",
+      "drinkware",
+      "glasses"
+    ],
+    "seo": {
+      "title": "Magic Sipper Glass | Visto Homeware",
+      "description": "Magic Sipper Glass — a stylish 400ml glass for everyday sipping and serving.",
+      "keywords": "magic, sipper, glass, drinkware, glasses"
+    }
+  },
+  {
+    "id": "wa-30-33",
+    "name": "Luxury Water Jug (2000-5000 ml)",
+    "description": "Luxury Water Jug (2000-5000 ml) — durable, leak-proof hydration for home, gym, and travel.",
+    "category": "water-bottles",
+    "subcategory": "jugs",
+    "size": "2000ml - 5000ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/WA-(30,31,32,33).jpeg",
+    "images": [
+      "/additional-products/WA-(30,31,32,33).jpeg"
+    ],
+    "tags": [
+      "luxury",
+      "water",
+      "jug",
+      "bottles",
+      "jugs"
+    ],
+    "seo": {
+      "title": "Luxury Water Jug (2000-5000 ml) | Visto Homeware",
+      "description": "Luxury Water Jug (2000-5000 ml) — durable, leak-proof hydration for home, gym, and travel.",
+      "keywords": "luxury, water, jug, bottles, jugs"
+    }
+  },
+  {
+    "id": "wa-34",
+    "name": "Shaker Bottle",
+    "description": "Shaker Bottle — durable, leak-proof hydration for home, gym, and travel.",
+    "category": "water-bottles",
+    "subcategory": "bottles",
+    "size": "700ml",
+    "material": "",
+    "features": [],
+    "inStock": true,
+    "isNew": true,
+    "img": "/additional-products/WA-34.jpeg",
+    "images": [
+      "/additional-products/WA-34.jpeg"
+    ],
+    "tags": [
+      "shaker",
+      "bottle",
+      "water",
+      "bottles"
+    ],
+    "seo": {
+      "title": "Shaker Bottle | Visto Homeware",
+      "description": "Shaker Bottle — durable, leak-proof hydration for home, gym, and travel.",
+      "keywords": "shaker, bottle, water, bottles"
+    }
+  },
 ];
 
 // Helper functions for filtering and searching

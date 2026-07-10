@@ -21,11 +21,10 @@
 .item-img {
   width: 100%;
   height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
   position: relative;
   border-radius: 12px;
+  overflow: hidden;
+  background-color: #f3f4f6; /* placeholder while the image loads */
 }
 
 /* Mobile responsiveness */

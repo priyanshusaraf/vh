@@ -6,6 +6,7 @@ import {
   useState,
 } from "react";
 import { gsap } from "gsap";
+import NextImage from "next/image";
 
 const useMedia = (
   queries,
@@ -47,19 +48,6 @@ const useMeasure = () => {
   return [ref, size];
 };
 
-const preloadImages = async (urls) => {
-  await Promise.all(
-    urls.map(
-      (src) =>
-        new Promise((resolve) => {
-          const img = new Image();
-          img.src = src;
-          img.onload = img.onerror = () => resolve();
-        })
-    )
-  );
-};
-
 const Masonry = ({
   items,
   ease = "power3.out",
@@ -83,7 +71,6 @@ const Masonry = ({
   );
 
   const [containerRef, { width }] = useMeasure();
-  const [imagesReady, setImagesReady] = useState(false);
 
   const getInitialPosition = (item) => {
     const containerRect = containerRef.current?.getBoundingClientRect();
@@ -117,10 +104,6 @@ const Masonry = ({
     }
   };
 
-  useEffect(() => {
-    preloadImages(items.map((i) => i.img)).then(() => setImagesReady(true));
-  }, [items]);
-
   const grid = useMemo(() => {
     if (!width) return [];
 
@@ -145,7 +128,7 @@ const Masonry = ({
   const hasMounted = useRef(false);
 
   useLayoutEffect(() => {
-    if (!imagesReady) return;
+    if (!grid.length) return;
 
     grid.forEach((item, index) => {
       const selector = `[data-key="${item.id}"]`;
@@ -187,7 +170,7 @@ const Masonry = ({
 
     hasMounted.current = true;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [grid, imagesReady, stagger, animateFrom, blurToFocus, duration, ease]);
+  }, [grid, stagger, animateFrom, blurToFocus, duration, ease]);
 
   const handleMouseEnter = (e, item) => {
     const element = e.currentTarget;
@@ -253,10 +236,15 @@ const Masonry = ({
             onMouseEnter={(e) => handleMouseEnter(e, item)}
             onMouseLeave={(e) => handleMouseLeave(e, item)}
           >
-            <div
-              className="item-img"
-              style={{ backgroundImage: `url(${item.img})` }}
-            >
+            <div className="item-img">
+              <NextImage
+                src={item.img}
+                alt={item.name || "Visto Homeware product"}
+                fill
+                sizes="(min-width:1500px) 20vw, (min-width:1000px) 25vw, (min-width:600px) 33vw, (min-width:400px) 50vw, 100vw"
+                className="object-cover"
+                style={{ borderRadius: "12px" }}
+              />
               {colorShiftOnHover && (
                 <div
                   className="color-overlay"
@@ -275,7 +263,7 @@ const Masonry = ({
                 />
               )}
               {item.name && (
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4">
+                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent p-4 z-10">
                   <h3 className="text-white font-semibold text-lg mb-1">{item.name}</h3>
                   {item.size && (
                     <p className="text-gray-200 text-sm">Size: {item.size}</p>

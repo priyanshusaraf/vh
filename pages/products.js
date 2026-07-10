@@ -4,6 +4,8 @@ import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
+import Seo from '@/components/Seo';
+import siteConfig from '@/lib/siteConfig';
 import { products, categories, priceRanges, searchProducts } from '../data/products';
 
 // Persisted "likes" backed by localStorage. State is hydrated after mount so
@@ -239,30 +241,12 @@ export default function Products() {
 
   return (
     <>
+      <Seo
+        title="Premium Kitchen Containers & Food Storage Solutions | Visto Homeware"
+        description="Shop premium kitchen containers, airtight food storage solutions, tiffin boxes & household products. BPA-free containers for modern kitchens. Free shipping across India."
+        path="/products"
+      />
       <Head>
-        <title>Premium Kitchen Containers & Food Storage Solutions | Visto Homeware</title>
-        <meta name="description" content="Shop premium kitchen containers, airtight food storage solutions, tiffin boxes & household products. BPA-free containers for modern kitchens. Free shipping across India." />
-        <meta name="keywords" content="kitchen containers, food storage containers, airtight containers, tiffin boxes, lunch boxes, BPA free containers, plastic containers, kitchen storage, household products, kitchenware, Feel Fresh containers, water bottles, storage solutions" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/vh-logo.png" />
-        
-        {/* Open Graph tags */}
-        <meta property="og:title" content="Premium Kitchen Containers & Food Storage Solutions | Visto Homeware" />
-        <meta property="og:description" content="Shop premium kitchen containers, airtight food storage solutions, tiffin boxes & household products. BPA-free containers for modern kitchens." />
-        <meta property="og:image" content="/vh-logo.png" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://vistohomeware.com/products" />
-        
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Premium Kitchen Containers & Food Storage Solutions" />
-        <meta name="twitter:description" content="Shop premium kitchen containers, airtight food storage solutions, tiffin boxes & household products." />
-        <meta name="twitter:image" content="/vh-logo.png" />
-
-        {/* Additional SEO tags */}
-        <meta name="robots" content="index, follow" />
-        <meta name="author" content="Visto Homeware" />
-        <link rel="canonical" href="https://vistohomeware.com/products" />
         
         {/* Structured Data */}
         <script type="application/ld+json">
@@ -280,17 +264,12 @@ export default function Products() {
                 "position": index + 1,
                 "name": product.name,
                 "description": product.description,
-                "image": product.img,
+                "image": siteConfig.baseUrl + encodeURI(product.img),
                 "brand": {
                   "@type": "Brand",
                   "name": "Visto Homeware"
                 },
-                "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock",
-                "aggregateRating": {
-                  "@type": "AggregateRating",
-                  "ratingValue": product.rating,
-                  "reviewCount": product.reviews
-                }
+                "availability": product.inStock ? "https://schema.org/InStock" : "https://schema.org/OutOfStock"
               }))
             }
           })}

@@ -3,6 +3,8 @@ import { Search, Filter, Menu, X, Grid, List } from 'lucide-react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import Seo from '@/components/Seo';
+import siteConfig from '@/lib/siteConfig';
 import Masonry from '../components/Masonry';
 import { products } from '../data/products';
 
@@ -57,29 +59,12 @@ const Gallery = () => {
 
   return (
     <>
+      <Seo
+        title="Product Gallery - Visto Homeware | Premium Kitchen Containers & Storage Solutions"
+        description="Explore our complete visual gallery of premium kitchen containers, food storage solutions, tiffin boxes, and homeware products. High-quality airtight containers for modern kitchens."
+        path="/gallery"
+      />
       <Head>
-        <title>Product Gallery - Visto Homeware | Premium Kitchen Containers & Storage Solutions</title>
-        <meta name="description" content="Explore our complete visual gallery of premium kitchen containers, food storage solutions, tiffin boxes, and homeware products. High-quality airtight containers for modern kitchens." />
-        <meta name="keywords" content="kitchen containers gallery, food storage containers, tiffin boxes, airtight containers, kitchen storage solutions, homeware gallery, premium containers, BPA free containers" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/vh-logo.png" />
-        
-        {/* Open Graph tags for social sharing */}
-        <meta property="og:title" content="Product Gallery - Visto Homeware | Premium Kitchen Storage Solutions" />
-        <meta property="og:description" content="Explore our complete visual gallery of premium kitchen containers and food storage solutions. High-quality airtight containers for modern kitchens." />
-        <meta property="og:image" content="/vh-logo.png" />
-        <meta property="og:type" content="website" />
-        
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Product Gallery - Visto Homeware" />
-        <meta name="twitter:description" content="Premium kitchen containers and food storage solutions gallery" />
-        <meta name="twitter:image" content="/vh-logo.png" />
-
-        {/* Additional SEO tags */}
-        <meta name="robots" content="index, follow" />
-        <meta name="author" content="Visto Homeware" />
-        <link rel="canonical" href="https://vistohomeware.com/gallery" />
         
         {/* Structured Data for Products */}
         <script type="application/ld+json">
@@ -95,7 +80,7 @@ const Gallery = () => {
               "position": index + 1,
               "name": product.name,
               "description": product.description,
-              "image": product.img,
+              "image": siteConfig.baseUrl + encodeURI(product.img),
               "availability": "https://schema.org/InStock"
             }))
           })}
@@ -301,6 +286,7 @@ const Gallery = () => {
                           src={item.img}
                           alt={item.name}
                           fill
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                           className="object-cover group-hover:scale-105 transition-transform duration-300"
                         />
                       </div>

@@ -3,6 +3,8 @@ import { ChevronLeft, ChevronRight, Phone, Mail, MapPin, Star, Search, Menu, X, 
 import Head from 'next/head';
 import Link from 'next/link';
 import Image from 'next/image';
+import Seo from '@/components/Seo';
+import siteConfig from '@/lib/siteConfig';
 import { useRouter } from 'next/router';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
@@ -249,6 +251,8 @@ const ProductCarousel = () => {
                   src={product.image}
                   alt={product.name}
                   fill
+                  sizes="85vw"
+                  priority={index === 0}
                   className="object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>
@@ -429,34 +433,18 @@ export default function Home() {
 
   return (
     <>
+      <Seo
+        title="Visto Homeware - Premium Kitchen Containers, Tiffin Boxes & Food Storage Solutions"
+        description="India's leading brand for premium kitchen containers, airtight food storage, tiffin boxes, water bottles & household products. BPA-free, microwave safe containers. Free delivery across India."
+        path="/"
+      />
       <Head>
-        <title>Visto Homeware - Premium Kitchen Containers, Tiffin Boxes & Food Storage Solutions</title>
-        <meta name="description" content="India's leading brand for premium kitchen containers, airtight food storage, tiffin boxes, water bottles & household products. BPA-free, microwave safe containers. Free delivery across India." />
-        <meta name="keywords" content="kitchen containers, food storage containers, tiffin boxes, lunch boxes, water bottles, airtight containers, BPA free containers, microwave safe containers, Feel Fresh containers, plastic containers, kitchen storage solutions, household products, kitchenware India, food containers online, storage boxes, meal prep containers" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/vh-logo.png" />
         
-        {/* Open Graph tags for social sharing */}
-        <meta property="og:title" content="Visto Homeware - Premium Kitchen Containers & Food Storage Solutions" />
-        <meta property="og:description" content="India's leading brand for premium kitchen containers, airtight food storage, tiffin boxes & household products. BPA-free, microwave safe containers." />
-        <meta property="og:image" content="/vh-logo.png" />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://vistohomeware.com" />
-        
-        {/* Twitter Card tags */}
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Visto Homeware - Premium Kitchen Containers & Food Storage Solutions" />
-        <meta name="twitter:description" content="India's leading brand for premium kitchen containers, airtight food storage, tiffin boxes & household products." />
-        <meta name="twitter:image" content="/vh-logo.png" />
-
-        {/* Additional SEO tags */}
-        <meta name="robots" content="index, follow" />
-        <meta name="author" content="Visto Homeware" />
+        {/* Local business geo signals */}
         <meta name="geo.region" content="IN-WB" />
         <meta name="geo.placename" content="Kolkata" />
         <meta name="geo.position" content="22.5726;88.3639" />
         <meta name="ICBM" content="22.5726, 88.3639" />
-        <link rel="canonical" href="https://vistohomeware.com" />
         
         {/* Structured Data for Business */}
         <script type="application/ld+json">
@@ -464,7 +452,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "LocalBusiness",
             "name": "Visto Homeware",
-            "image": "/vh-logo.png",
+            "image": siteConfig.baseUrl + "/og-image.jpg",
             "description": "Premium kitchen containers, food storage solutions, tiffin boxes and household products manufacturer and retailer",
             "address": {
               "@type": "PostalAddress",
@@ -517,7 +505,7 @@ export default function Home() {
             "@context": "https://schema.org",
             "@type": "Product",
             "name": "Feel Fresh Kitchen Container Collection",
-            "image": "/FEEL FRESH MEDIUM 800ml.jpg",
+            "image": siteConfig.baseUrl + encodeURI("/FEEL FRESH MEDIUM 800ml.jpg"),
             "description": "Premium airtight kitchen containers for food storage. BPA-free, microwave safe, and available in multiple sizes.",
             "brand": {
               "@type": "Brand", 
@@ -527,13 +515,7 @@ export default function Home() {
               "@type": "Organization",
               "name": "Visto Homeware"
             },
-            "category": "Kitchen Storage Containers",
-
-            "aggregateRating": {
-              "@type": "AggregateRating",
-              "ratingValue": "4.7",
-              "reviewCount": "1250"
-            }
+            "category": "Kitchen Storage Containers"
           })}
         </script>
       </Head>
@@ -625,7 +607,7 @@ export default function Home() {
             </p>
             <div className="flex flex-col sm:flex-row justify-center items-center gap-4 mb-8">
               <a 
-                href="/product-catalogue.pdf" 
+                href="/catalogue.pdf"
                 download="Visto-Homeware-Catalogue.pdf"
                 className="inline-flex items-center bg-burgundy-800 text-white px-8 py-4 hover:bg-burgundy-900 transition-all duration-300 font-semibold shadow-lg hover:shadow-xl transform hover:-translate-y-1"
               >
