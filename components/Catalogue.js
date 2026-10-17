@@ -33,8 +33,13 @@ function useLikes() {
 }
 
 // The catalogue at /products, each category page at /products/[category]
-// (`categoryId`), and the gallery (`gallery`), which filters by ?category=.
-export default function Catalogue({ gallery = false, categoryId = null }) {
+// (`categoryId`), and the gallery (`gallery`), which filters by ?category=
+// and shows photos uncropped using `photoSizes` ({ [productId]: [w, h] }).
+export default function Catalogue({
+  gallery = false,
+  categoryId = null,
+  photoSizes = {},
+}) {
   const router = useRouter();
   const query = router.query;
   const { liked, toggleLike } = useLikes();
@@ -193,6 +198,7 @@ export default function Catalogue({ gallery = false, categoryId = null }) {
                   key={p.id}
                   product={p}
                   priority={i < 4}
+                  photoSize={masonry ? photoSizes[p.id] : undefined}
                   liked={liked.has(p.id)}
                   onToggleLike={toggleLike}
                 />

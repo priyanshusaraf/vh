@@ -10,6 +10,7 @@ npm run build    # Production build
 npm start        # Serve production build
 npm run lint     # ESLint (next/core-web-vitals)
 node scripts/generate-icons.mjs   # Rebuild favicon/app icons from public/vh-logo.png
+node scripts/image-sizes.mjs      # Record photo sizes in data/image-sizes.json; re-run after adding photos
 ```
 
 No test framework is configured — there are no tests.
@@ -22,7 +23,7 @@ Next.js 15 **Pages Router** (not App Router — there is no `app/` directory des
 
 A **catalogue and enquiry site, not a store.** There is no cart, checkout or pricing. Conversions are catalogue downloads, WhatsApp chats, calls and contact-form enquiries.
 
-**Data.** `data/products.js` holds every product; edit it to add or change products. `lib/categories.js` holds the category list, each category's search title/description and its homepage tile image; `data/products.js` builds `categories` (with counts) from it. Products have no `price`. Their `rating`/`reviews` fields are not real reviews: never show them or put them in structured data. Image paths must match `public/` filenames exactly, including spaces and odd extensions (e.g. `/FEEL FRESH LONG 900ml..jpeg`).
+**Data.** `data/products.js` holds every product; edit it to add or change products. `lib/categories.js` holds the category list, each category's search title/description and its homepage tile image; `data/products.js` builds `categories` (with counts) from it. Products have no `price`. Their `rating`/`reviews` fields are not real reviews: never show them or put them in structured data. Image paths must match `public/` filenames exactly, including spaces and odd extensions (e.g. `/FEEL FRESH LONG 900ml..jpeg`). `data/image-sizes.json` lets the gallery and product pages show photos uncropped at their own shape; photos missing from it fall back to a square box.
 
 **URLs** come from `lib/catalog.js`: categories at `/products/[category]`, products at `/products/[category]/[slug]` where the slug is the slugified product name. Renaming a product changes its URL. Old `/products?product=<id>` and `/products?category=<id>` links are redirected client-side by `components/Catalogue.js`.
 

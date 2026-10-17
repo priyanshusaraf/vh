@@ -752,18 +752,20 @@ h3 {
   break-inside: avoid;
   margin-bottom: 32px;
 }
+.product-image.natural {
+  aspect-ratio: auto;
+}
 .gallery-grid .product-image {
-  aspect-ratio: 4 / 5;
   border: 0;
 }
-.gallery-grid .product-card:nth-child(3n + 2) .product-image {
-  aspect-ratio: 1.15;
+.product-image.natural > a {
+  position: static;
+  display: block;
 }
-.gallery-grid .product-card:nth-child(5n) .product-image {
-  aspect-ratio: 3 / 4;
-}
-.gallery-grid .product-image img {
-  object-fit: cover;
+.product-image.natural img {
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 /* Product page */

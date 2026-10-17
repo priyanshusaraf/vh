@@ -24,7 +24,7 @@ npm run build      # production build
 
 ## Editing content
 
-- **Products:** `data/products.js`. Put the photo in `public/` and use its exact filename.
+- **Products:** `data/products.js`. Put the photo in `public/`, use its exact filename, then run `node scripts/image-sizes.mjs` so the gallery shows it uncropped.
 - **Categories:** `lib/categories.js`, including each category's search title and description.
 - **Business details** (phone, WhatsApp, email, GSTIN, address): `lib/siteConfig.js`.
 - **Catalogue PDF:** `public/catalogue.pdf`. Update the size label in `lib/siteConfig.js` if the file changes.

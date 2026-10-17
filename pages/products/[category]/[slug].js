@@ -8,6 +8,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import ProductCard from "@/components/ProductCard";
 import { WhatsAppIcon } from "@/components/Icons";
 import { products } from "@/data/products";
+import imageSizes from "@/data/image-sizes.json";
 import { getCategory } from "@/lib/categories";
 import siteConfig from "@/lib/siteConfig";
 import { trackEvent } from "@/lib/track";
@@ -62,14 +63,24 @@ export function getStaticProps({ params }) {
     0,
     4,
   );
-  return { props: { product: pick(product), related: related.map(pick) } };
+  const photoSizes = Object.fromEntries(
+    productImages(product)
+      .filter((src) => imageSizes[src])
+      .map((src) => [src, imageSizes[src]]),
+  );
+  return {
+    props: { product: pick(product), related: related.map(pick), photoSizes },
+  };
 }
 
-export default function ProductPage({ product, related }) {
+export default function ProductPage({ product, related, photoSizes }) {
   const category = getCategory(product.category);
   const images = productImages(product);
   const [image, setImage] = useState(images[0]);
   const path = productPath(product);
+  // Size the photo box to the photo, so wide shots aren't letterboxed in a
+  // square; very tall photos are capped at 4:5.
+  const [w, h] = photoSizes[image] || [1, 1];
   const specs = [
     ["Capacity", product.size],
     ["Material", product.material],
@@ -113,7 +124,10 @@ export default function ProductPage({ product, related }) {
         />
         <div className="product-layout">
           <div className="product-media">
-            <div className="product-photo">
+            <div
+              className="product-photo"
+              style={{ aspectRatio: Math.max(w / h, 0.8) }}
+            >
               <Image
                 src={image}
                 alt={product.name}
