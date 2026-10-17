@@ -2,6 +2,25 @@
 
 A modern, SEO-optimized e-commerce website built with Next.js for Visto Homeware, showcasing premium kitchen containers, food storage solutions, tiffin boxes, and household products.
 
+## Redesign preview
+
+The redesign lives in the separate `vh-redesign` worktree on `codex/visto-redesign`. The original `vh` checkout remains unchanged.
+
+Run `npm run dev -- --port 3001` from this worktree to preview it. The homepage, product catalogue and gallery share the logo's red, black and white palette and one sans-serif font family. Product details open in a keyboard-accessible dialog; search and category filters remain in the URL. Saved favourites use the existing `visto:liked` storage key. Enquiries open an email draft; there is no checkout or form backend.
+
+Shared presentation lives in `components/SiteLayout.js`, `components/ProductCard.js` and `components/Catalogue.js`. Product data and photography are unchanged. Run `npm run build` for production verification; use `npx eslint components/Catalogue.js components/ProductCard.js components/SiteLayout.js pages/index.js pages/products.js pages/gallery.js` for the redesigned pages.
+
+### Design variants
+
+Open `/concepts` to compare all three directions. The current redesign remains at `/`. Two alternatives have different homepages and matching catalogue/gallery treatments:
+
+- `/concepts/showroom`: light pages throughout, with dark overlays only on photographs that carry text.
+- `/concepts/bold`: graphic red, oversized type, playful product collage.
+
+Use the preview bar to switch designs. The selected design stays with you when browsing products or the gallery; filters and selected products carry over when you switch. Preview homepages are marked noindex. All variants use the original logo colours and the same product data. Run `node scripts/check-designs.mjs` to verify design routing, anchors and preservation of filters and selected products.
+
+The sections below describe the original site for reference.
+
 ## 🚀 Features
 
 ### Core Features

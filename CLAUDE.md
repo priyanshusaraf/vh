@@ -25,7 +25,11 @@ This is a **static marketing/catalog site, not a transactional store.** There is
 
 **Pages** (`pages/`): `index.js` (homepage — hero, carousel, stats, testimonials, contact), `products.js` (searchable/filterable grid), `gallery.js` (Masonry view), plus `_app.js`/`_document.js`.
 
-### Conventions and gotchas
+### Redesign worktree
+
+This copy is the `codex/visto-redesign` branch. The original checkout is retained separately. `components/SiteLayout.js` now provides the shared navigation, contact section and footer. `components/Catalogue.js` provides both catalogue and gallery views, filtering, saved favourites and native dialog product details; `components/ProductCard.js` preserves current filters in detail links. The homepage reads the existing product data for its featured cards. The visual palette is the existing logo's red, black and white, with Inter as the only text font. The previous Masonry component is retained but no longer used by these pages. `styles/globals.css` owns the new layout and responsive styles. Preview on port 3001. Design variants are statically generated at `/concepts/showroom` and `/concepts/bold`; `/concepts` is the comparison page. `lib/designs.js` and `components/DesignLink.js` preserve the design in catalogue links. `styles/concepts.css` contains the variant styles. `node scripts/check-designs.mjs` checks the shared routing helper.
+
+### Original-site conventions and gotchas (historical)
 
 - **No shared layout.** The navbar and footer are copy-pasted inline into `index.js`, `products.js`, and `gallery.js`. A nav/footer change must be applied to all three files (and there is no `Layout` component to introduce one).
 - **Products have no `price` field.** `pages/products.js` filters and sorts on `product.price` (the "Price: Low/High" sort options and the `priceRanges` filter), but since the field is absent these are silent no-ops. The prices in `README.md` are documentation only — they are not in the data. Don't assume price logic works; wire up a `price` field first if pricing is needed.
