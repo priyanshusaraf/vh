@@ -4129,8 +4129,8 @@ export const products = [
   },
   {
     "id": "st-11",
-    "name": "Stationary Premium Drawer",
-    "description": "Stationary Premium Drawer — smart organization for a tidy, clutter-free home.",
+    "name": "Stationery Premium Drawer",
+    "description": "Stationery Premium Drawer — smart organization for a tidy, clutter-free home.",
     "category": "household",
     "subcategory": "organizers",
     "size": "",
@@ -4143,22 +4143,22 @@ export const products = [
       "/additional-products/ST-11.jpeg"
     ],
     "tags": [
-      "stationary",
+      "stationery",
       "premium",
       "drawer",
       "household",
       "organizers"
     ],
     "seo": {
-      "title": "Stationary Premium Drawer | Visto Homeware",
-      "description": "Stationary Premium Drawer — smart organization for a tidy, clutter-free home.",
-      "keywords": "stationary, premium, drawer, household, organizers"
+      "title": "Stationery Premium Drawer | Visto Homeware",
+      "description": "Stationery Premium Drawer — smart organization for a tidy, clutter-free home.",
+      "keywords": "stationery, premium, drawer, household, organizers"
     }
   },
   {
     "id": "st-12",
-    "name": "Stationary Organiser (2 Layers)",
-    "description": "Stationary Organiser (2 Layers) — smart organization for a tidy, clutter-free home.",
+    "name": "Stationery Organiser (2 Layers)",
+    "description": "Stationery Organiser (2 Layers) — smart organization for a tidy, clutter-free home.",
     "category": "household",
     "subcategory": "organizers",
     "size": "2 Layers",
@@ -4171,16 +4171,16 @@ export const products = [
       "/additional-products/ST-12.jpeg"
     ],
     "tags": [
-      "stationary",
+      "stationery",
       "organiser",
       "layers",
       "household",
       "organizers"
     ],
     "seo": {
-      "title": "Stationary Organiser (2 Layers) | Visto Homeware",
-      "description": "Stationary Organiser (2 Layers) — smart organization for a tidy, clutter-free home.",
-      "keywords": "stationary, organiser, layers, household, organizers"
+      "title": "Stationery Organiser (2 Layers) | Visto Homeware",
+      "description": "Stationery Organiser (2 Layers) — smart organization for a tidy, clutter-free home.",
+      "keywords": "stationery, organiser, layers, household, organizers"
     }
   },
   {

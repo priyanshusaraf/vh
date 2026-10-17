@@ -18,7 +18,7 @@ import {
   productEnquiryText,
   productImages,
   productPath,
-  slugify,
+  productSlug,
   whatsappHref,
 } from "@/lib/catalog";
 
@@ -45,7 +45,7 @@ const pick = (p) =>
 export function getStaticPaths() {
   return {
     paths: products.map((p) => ({
-      params: { category: p.category, slug: slugify(p.name) },
+      params: { category: p.category, slug: productSlug(p) },
     })),
     fallback: false,
   };
@@ -53,7 +53,7 @@ export function getStaticPaths() {
 
 export function getStaticProps({ params }) {
   const product = products.find(
-    (p) => p.category === params.category && slugify(p.name) === params.slug,
+    (p) => p.category === params.category && productSlug(p) === params.slug,
   );
   if (!product) return { notFound: true };
   // Show the next products in the same category, wrapping round to the start.

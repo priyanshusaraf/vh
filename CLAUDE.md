@@ -25,7 +25,7 @@ A **catalogue and enquiry site, not a store.** There is no cart, checkout or pri
 
 **Data.** `data/products.js` holds every product; edit it to add or change products. `lib/categories.js` holds the category list, each category's search title/description and its homepage tile image; `data/products.js` builds `categories` (with counts) from it. Products have no `price`. Their `rating`/`reviews` fields are not real reviews: never show them or put them in structured data. Image paths must match `public/` filenames exactly, including spaces and odd extensions (e.g. `/FEEL FRESH LONG 900ml..jpeg`). `data/image-sizes.json` lets the gallery and product pages show photos uncropped at their own shape; photos missing from it fall back to a square box.
 
-**URLs** come from `lib/catalog.js`: categories at `/products/[category]`, products at `/products/[category]/[slug]` where the slug is the slugified product name. Renaming a product changes its URL. Old `/products?product=<id>` and `/products?category=<id>` links are redirected client-side by `components/Catalogue.js`.
+**URLs** come from `lib/catalog.js`: categories at `/products/[category]`, products at `/products/[category]/[slug]`. The slug is the slugified product name unless `SLUGS` in `lib/catalog.js` gives a shorter one. Renaming a product changes its URL unless it has a `SLUGS` entry, so when a URL changes, add `[old, new]` to `data/url-redirects.json`; `next.config.mjs` turns those into permanent redirects. Old `/products?product=<id>` and `/products?category=<id>` links are redirected client-side by `components/Catalogue.js`.
 
 **Pages.**
 - `index.js`: homepage. `getStaticProps` passes only the products shown, so the full catalogue isn't bundled.

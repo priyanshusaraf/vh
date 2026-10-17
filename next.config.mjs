@@ -1,8 +1,22 @@
+import { readFileSync } from 'node:fs';
+
+// [old path, new path] pairs for product URLs that were shortened or renamed.
+const urlRedirects = JSON.parse(
+  readFileSync(new URL('./data/url-redirects.json', import.meta.url), 'utf8'),
+);
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   // Return to the same spot in the catalogue after viewing a product.
   experimental: { scrollRestoration: true },
+  async redirects() {
+    return urlRedirects.map(([source, destination]) => ({
+      source,
+      destination,
+      permanent: true,
+    }));
+  },
   images: {
     formats: ['image/avif', 'image/webp'],
     // Cache optimized variants at the edge for 31 days.
