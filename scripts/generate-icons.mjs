@@ -4,6 +4,8 @@
 //   public/favicon.ico (16, 32, 48), public/apple-touch-icon.png (180),
 //   public/icon-192.png, public/icon-512.png
 // Run with: node scripts/generate-icons.mjs
+// Then bump ICON_VERSION in pages/_document.js and the ?v= in
+// public/site.webmanifest, or browsers keep showing the old icons.
 import sharp from "sharp";
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
