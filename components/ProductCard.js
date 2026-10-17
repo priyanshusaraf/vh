@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { ArrowUpRight, Heart } from "lucide-react";
-import { currentDesign } from "@/lib/designs";
 import { categories } from "@/data/products";
 export default function ProductCard({
   product,
@@ -16,14 +15,7 @@ export default function ProductCard({
     router.pathname === "/products" || router.pathname === "/gallery";
   const href = {
     pathname: inCatalogue ? router.pathname : "/products",
-    query: {
-      ...(inCatalogue
-        ? router.query
-        : currentDesign(router.query) !== "everyday"
-          ? { design: currentDesign(router.query) }
-          : {}),
-      product: product.id,
-    },
+    query: { ...(inCatalogue ? router.query : {}), product: product.id },
   };
   return (
     <article className="product-card">

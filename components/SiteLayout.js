@@ -1,6 +1,5 @@
 import { useState } from "react";
-import Link from "@/components/DesignLink";
-import { currentDesign } from "@/lib/designs";
+import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import {
@@ -59,14 +58,13 @@ export function Contact() {
 export default function SiteLayout({ children, className = "" }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const design = currentDesign(router.query);
   const links = [
     ["/products", "Our products"],
     ["/gallery", "In everyday life"],
     ["/#about", "Our story"],
   ];
   return (
-    <div className={`site-shell theme-${design} ${className}`}>
+    <div className={`site-shell ${className}`}>
       <a className="skip-link" href="#main">
         Skip to content
       </a>

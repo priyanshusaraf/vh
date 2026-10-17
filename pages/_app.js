@@ -1,6 +1,4 @@
 import "@/styles/globals.css";
-import "@/styles/concepts.css";
-import DesignSwitcher from "@/components/DesignSwitcher";
 import { Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -14,7 +12,6 @@ export default function App({ Component, pageProps }) {
   return (
     <div className={`${inter.variable} ${inter.className}`}>
       <Component {...pageProps} />
-      <DesignSwitcher />
       <Analytics />
     </div>
   );

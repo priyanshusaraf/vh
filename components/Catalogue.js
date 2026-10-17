@@ -3,7 +3,6 @@ import { useRouter } from "next/router";
 import Image from "next/image";
 import Head from "next/head";
 import Link from "next/link";
-import { currentDesign, designs, designHref } from "@/lib/designs";
 import {
   Search,
   X,
@@ -39,7 +38,6 @@ function useLikes() {
   return { liked, toggleLike };
 }
 function ProductDetails({ product, onClose }) {
-  const router = useRouter();
   const dialog = useRef(null);
   useEffect(() => {
     const element = dialog.current;
@@ -115,25 +113,6 @@ function ProductDetails({ product, onClose }) {
         <small>
           Contact our team for pricing, availability and bulk orders.
         </small>
-        <nav
-          className="detail-design-options"
-          aria-label="Preview product in another design"
-        >
-          <span>PREVIEW DESIGN</span>
-          {designs.map((d) => (
-            <Link
-              key={d.id}
-              href={designHref(router.asPath, d.id)}
-              shallow
-              scroll={false}
-              aria-current={
-                currentDesign(router.query) === d.id ? "page" : undefined
-              }
-            >
-              {d.name}
-            </Link>
-          ))}
-        </nav>
       </div>
     </dialog>
   );
@@ -299,9 +278,7 @@ export default function Catalogue({ gallery = false }) {
                 router.replace(
                   {
                     pathname: router.pathname,
-                    query: router.query.design
-                      ? { design: router.query.design }
-                      : {},
+                    query: {},
                   },
                   undefined,
                   { shallow: true, scroll: false },
@@ -359,9 +336,7 @@ export default function Catalogue({ gallery = false }) {
                 router.replace(
                   {
                     pathname: router.pathname,
-                    query: router.query.design
-                      ? { design: router.query.design }
-                      : {},
+                    query: {},
                   },
                   undefined,
                   {
