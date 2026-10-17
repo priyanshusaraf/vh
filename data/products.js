@@ -1,3 +1,5 @@
+import { categoryList } from "../lib/categories";
+
 // Comprehensive product data based on available images
 export const products = [
   // Feel Fresh Container Series
@@ -4382,23 +4384,11 @@ export const getProductById = (id) => {
 };
 
 // Categories and filters
-export const categories = [
-  { id: 'containers', name: 'Food Containers' },
-  { id: 'container-sets', name: 'Container Sets' },
-  { id: 'water-bottles', name: 'Water Bottles' },
-  { id: 'lunch-boxes', name: 'Lunch Boxes & Tiffins' },
-  { id: 'drinkware', name: 'Drinkware' },
-  { id: 'casseroles', name: 'Casseroles' },
-  { id: 'household', name: 'Household' },
-].map(c => ({ ...c, count: products.filter(p => p.category === c.id).length })).filter(c => c.count > 0)
+export const categories = categoryList
+  .map(c => ({ id: c.id, name: c.name, count: products.filter(p => p.category === c.id).length }))
+  .filter(c => c.count > 0);
 
 export const sizes = [...new Set(products.map(p => p.size))].sort();
 
-export const priceRanges = [
-  { id: 'under-200', name: 'Under ₹200', min: 0, max: 200 },
-  { id: '200-400', name: '₹200 - ₹400', min: 200, max: 400 },
-  { id: '400-600', name: '₹400 - ₹600', min: 400, max: 600 },
-  { id: 'above-600', name: 'Above ₹600', min: 600, max: Infinity }
-];
 
 export default products;

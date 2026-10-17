@@ -2,16 +2,17 @@ import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useRouter } from "next/router";
-import {
-  ArrowUpRight,
-  ArrowRight,
-  Download,
-  Menu,
-  X,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { Download, Mail, Menu, Phone, X } from "lucide-react";
 import siteConfig from "@/lib/siteConfig";
+import { categoryList } from "@/lib/categories";
+import { categoryPath, whatsappHref } from "@/lib/catalog";
+import { trackEvent } from "@/lib/track";
+import { WhatsAppIcon } from "@/components/Icons";
+
+const { business, catalogue } = siteConfig;
+const whatsappGreeting = whatsappHref(
+  "Hello Visto, I'd like to know more about your products.",
+);
 
 export function Brand() {
   return (
@@ -23,68 +24,83 @@ export function Brand() {
     </span>
   );
 }
-export function Contact() {
+
+export function CatalogueLink({ className = "text-link", children }) {
   return (
-    <section className="contact-section wrap" id="contact">
-      <div>
-        <h2>Product & wholesale enquiries</h2>
-        <p>Contact our team for pricing, availability and bulk orders.</p>
-      </div>
-      <div className="contact-links">
-        <a href={`mailto:${siteConfig.business.email}`}>
-          <Mail size={21} />
+    <a
+      className={className}
+      href={catalogue.href}
+      target="_blank"
+      rel="noopener"
+      onClick={() => trackEvent("catalogue_download")}
+    >
+      {children || (
+        <>
+          Download catalogue <Download size={17} />
+        </>
+      )}
+    </a>
+  );
+}
+
+function ContactStrip() {
+  return (
+    <section className="contact-strip wrap" aria-labelledby="contact-strip">
+      <h2 id="contact-strip">Product & wholesale enquiries</h2>
+      <div className="contact-actions">
+        <a
+          href={whatsappGreeting}
+          target="_blank"
+          rel="noopener"
+          onClick={() => trackEvent("whatsapp_click", { from: "strip" })}
+        >
+          <WhatsAppIcon />
           <span>
-            <small>WRITE TO US</small>
-            {siteConfig.business.email}
+            WhatsApp<strong>{business.phoneDisplay}</strong>
           </span>
-          <ArrowUpRight />
         </a>
-        <a href={`tel:${siteConfig.business.telephone}`}>
-          <Phone size={21} />
+        <a href={`tel:${business.telephone}`}>
+          <Phone size={20} />
           <span>
-            <small>GIVE US A CALL</small>+91 98310 33736
+            Call<strong>{business.phoneDisplay}</strong>
           </span>
-          <ArrowUpRight />
         </a>
-        <p>
-          1/2, Chanditala Branch Road, Kolkata 700053
-          <br />
-          West Bengal, India
-        </p>
+        <a href={`mailto:${business.email}`}>
+          <Mail size={20} />
+          <span>
+            Email<strong>{business.email}</strong>
+          </span>
+        </a>
+        <Link className="button button-red" href="/contact">
+          Get a quote
+        </Link>
       </div>
     </section>
   );
 }
-export default function SiteLayout({ children, className = "" }) {
+
+const links = [
+  ["/products", "Products"],
+  ["/gallery", "Gallery"],
+  ["/contact", "Contact"],
+];
+
+export default function SiteLayout({ children }) {
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const links = [
-    ["/products", "Our products"],
-    ["/gallery", "In everyday life"],
-    ["/#about", "Our story"],
-  ];
+  const close = () => setOpen(false);
   return (
-    <div className={`site-shell ${className}`}>
+    <div className="site-shell">
       <a className="skip-link" href="#main">
         Skip to content
       </a>
-      <div className="announcement">
-        Thoughtfully made. Happily used.{" "}
-        <span>Homeware for your every day.</span>
-        <a href="/catalogue.pdf" target="_blank" rel="noreferrer">
-          Explore the catalogue <ArrowUpRight size={13} />
-        </a>
-      </div>
       <header className="site-header">
         <div className="nav-inner wrap">
-          <Link
-            href="/"
-            aria-label="Visto Homeware home"
-            onClick={() => setOpen(false)}
-          >
+          <Link href="/" aria-label="Visto Homeware home" onClick={close}>
             <Brand />
           </Link>
           <nav
+            id="main-nav"
             aria-label="Main navigation"
             className={open ? "main-nav is-open" : "main-nav"}
           >
@@ -92,23 +108,26 @@ export default function SiteLayout({ children, className = "" }) {
               <Link
                 key={href}
                 href={href}
-                onClick={() => setOpen(false)}
-                aria-current={router.pathname === href ? "page" : undefined}
+                onClick={close}
+                aria-current={
+                  router.pathname === href ||
+                  (href === "/products" && router.pathname.startsWith(href))
+                    ? "page"
+                    : undefined
+                }
               >
                 {label}
               </Link>
             ))}
+            <CatalogueLink className="nav-catalogue" />
           </nav>
-          <Link
-            className="nav-contact"
-            href="/#contact"
-            onClick={() => setOpen(false)}
-          >
-            Get in touch <ArrowUpRight size={17} />
+          <Link className="button button-outline nav-cta" href="/contact" onClick={close}>
+            Get a quote
           </Link>
           <button
             className="menu-toggle"
             aria-label={open ? "Close menu" : "Open menu"}
+            aria-controls="main-nav"
             aria-expanded={open}
             onClick={() => setOpen(!open)}
           >
@@ -117,41 +136,59 @@ export default function SiteLayout({ children, className = "" }) {
         </div>
       </header>
       <main id="main">{children}</main>
-      <Contact />
-      <footer>
+      {router.pathname !== "/contact" && <ContactStrip />}
+      <footer className="site-footer">
         <div className="footer-top wrap">
-          <div>
+          <div className="footer-brand">
             <Link href="/" aria-label="Visto Homeware home">
               <Brand />
             </Link>
-            <p>Kitchen, dining & home essentials.</p>
+            <address>
+              {business.streetAddress}
+              <br />
+              {business.addressLocality} {business.postalCode},{" "}
+              {business.addressRegion}
+            </address>
+            <p>GSTIN {business.gstin}</p>
           </div>
-          <div>
-            <span className="eyebrow">EXPLORE</span>
+          <nav aria-label="Product categories">
+            <h2>Products</h2>
+            {categoryList.map((c) => (
+              <Link key={c.id} href={categoryPath(c.id)}>
+                {c.name}
+              </Link>
+            ))}
+          </nav>
+          <nav aria-label="Visto Homeware">
+            <h2>Visto</h2>
             <Link href="/products">All products</Link>
-            <Link href="/gallery">Product gallery</Link>
-            <Link href="/#about">Our story</Link>
-          </div>
+            <Link href="/gallery">Gallery</Link>
+            <Link href="/contact">Contact</Link>
+            <CatalogueLink className="" />
+          </nav>
           <div>
-            <span className="eyebrow">MAKE YOURSELF AT HOME</span>
-            <Link href="/#contact">
-              Contact us <ArrowUpRight size={14} />
-            </Link>
-            <a href="/catalogue.pdf" target="_blank" rel="noreferrer">
-              Download catalogue <Download size={14} />
-            </a>
-            <a href="mailto:smplastics@gmail.com">
-              Retail & wholesale enquiries <ArrowRight size={14} />
+            <h2>Contact</h2>
+            <a href={`tel:${business.telephone}`}>{business.phoneDisplay}</a>
+            <a href={`mailto:${business.email}`}>{business.email}</a>
+            <a href={whatsappGreeting} target="_blank" rel="noopener">
+              WhatsApp
             </a>
           </div>
         </div>
         <div className="footer-bottom wrap">
-          <span>
-            © {new Date().getFullYear()} Visto Homeware. All rights reserved.
-          </span>
-          <span>Kolkata, West Bengal, India.</span>
+          © {new Date().getFullYear()} Visto Homeware. All rights reserved.
         </div>
       </footer>
+      <a
+        className="whatsapp-float"
+        href={whatsappGreeting}
+        target="_blank"
+        rel="noopener"
+        aria-label="Chat with Visto Homeware on WhatsApp"
+        onClick={() => trackEvent("whatsapp_click", { from: "float" })}
+      >
+        <WhatsAppIcon size={28} />
+      </a>
     </div>
   );
 }

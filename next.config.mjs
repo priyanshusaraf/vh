@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Return to the same spot in the catalogue after viewing a product.
+  experimental: { scrollRestoration: true },
   images: {
     formats: ['image/avif', 'image/webp'],
     // Cache optimized variants at the edge for 31 days.

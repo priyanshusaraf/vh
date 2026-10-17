@@ -1,21 +1,15 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import Image from "next/image";
-import Head from "next/head";
 import Link from "next/link";
-import {
-  Search,
-  X,
-  ArrowUpRight,
-  Heart,
-  LayoutGrid,
-  Grid2X2,
-} from "lucide-react";
-import SiteLayout from "@/components/SiteLayout";
-import Seo from "@/components/Seo";
+import { Search, X, Heart, LayoutGrid, Grid2X2 } from "lucide-react";
+import SiteLayout, { CatalogueLink } from "@/components/SiteLayout";
 import ProductCard from "@/components/ProductCard";
+import Breadcrumbs from "@/components/Breadcrumbs";
 import { products, categories, searchProducts } from "@/data/products";
-import siteConfig from "@/lib/siteConfig";
+import { getCategory } from "@/lib/categories";
+import { categoryPath, productPath } from "@/lib/catalog";
+
+const PAGE_SIZE = 48;
 
 // Keep saved products compatible with the original site's local storage.
 function useLikes() {
@@ -37,168 +31,104 @@ function useLikes() {
     });
   return { liked, toggleLike };
 }
-function ProductDetails({ product, onClose }) {
-  const dialog = useRef(null);
-  useEffect(() => {
-    const element = dialog.current;
-    const previous = document.activeElement;
-    element.showModal();
-    const overflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => {
-      document.body.style.overflow = overflow;
-      element.close();
-      previous?.focus();
-    };
-  }, []);
-  return (
-    <dialog
-      ref={dialog}
-      className="product-dialog"
-      onCancel={onClose}
-      onClick={(e) => {
-        if (e.target === dialog.current) onClose();
-      }}
-      aria-labelledby="detail-title"
-    >
-      <button
-        className="dialog-close"
-        onClick={onClose}
-        aria-label="Close product details"
-      >
-        <X />
-      </button>
-      <div className="detail-image">
-        <Image
-          src={product.img}
-          alt={product.name}
-          fill
-          sizes="(max-width:760px) 90vw, 45vw"
-        />
-      </div>
-      <div className="detail-copy">
-        <span className="eyebrow">
-          {categories.find((c) => c.id === product.category)?.name}
-        </span>
-        <h2 id="detail-title">{product.name}</h2>
-        <p>{product.description}</p>
-        <dl>
-          {[
-            ["Capacity", product.size],
-            ["Material", product.material],
-            ["Dimensions", product.dimensions],
-            ["Product code", product.id.toUpperCase()],
-          ]
-            .filter(([, v]) => v)
-            .map(([k, v]) => (
-              <div key={k}>
-                <dt>{k}</dt>
-                <dd>{v}</dd>
-              </div>
-            ))}
-        </dl>
-        {product.features?.length > 0 && (
-          <div className="detail-features">
-            {product.features.map((f) => (
-              <span key={f}>{f}</span>
-            ))}
-          </div>
-        )}
-        <a
-          className="button button-dark"
-          href={`mailto:${siteConfig.business.email}?subject=${encodeURIComponent("Product enquiry: " + product.name)}&body=${encodeURIComponent("Hello Visto,\n\nI would like to know more about " + product.name + " (" + product.id + ").\n\nQuantity required: \nDelivery location: \n\nThank you.")}`}
-        >
-          Enquire about this product <ArrowUpRight size={18} />
-        </a>
-        <small>
-          Contact our team for pricing, availability and bulk orders.
-        </small>
-      </div>
-    </dialog>
-  );
-}
-export default function Catalogue({ gallery = false }) {
+
+// The catalogue at /products, each category page at /products/[category]
+// (`categoryId`), and the gallery (`gallery`), which filters by ?category=.
+export default function Catalogue({ gallery = false, categoryId = null }) {
   const router = useRouter();
+  const query = router.query;
   const { liked, toggleLike } = useLikes();
   const [onlySaved, setOnlySaved] = useState(false);
   const [sort, setSort] = useState("featured");
-  const [limit, setLimit] = useState(24);
   const [masonry, setMasonry] = useState(gallery);
-  const search =
-    typeof router.query.search === "string" ? router.query.search : "";
-  const category =
-    typeof router.query.category === "string" ? router.query.category : "all";
-  const selected = products.find((p) => p.id === router.query.product);
-  const update = (key, value) => {
-    const query = { ...router.query };
-    if (!value || value === "all") delete query[key];
-    else query[key] = value;
-    if (key !== "product") setLimit(24);
-    router.replace({ pathname: router.pathname, query }, undefined, {
+
+  const search = typeof query.search === "string" ? query.search : "";
+  const shown = Math.max(PAGE_SIZE, Number(query.show) || 0);
+  const active =
+    categoryId ||
+    (gallery && getCategory(query.category) ? query.category : "all");
+  const category = getCategory(active);
+
+  // Send links from the previous site (/products?product= and
+  // /products?category=) to the pages that replaced them.
+  useEffect(() => {
+    if (!router.isReady || gallery || categoryId) return;
+    const old = products.find((p) => p.id === query.product);
+    if (old) router.replace(productPath(old));
+    else if (getCategory(query.category))
+      router.replace(categoryPath(query.category));
+  }, [router, gallery, categoryId, query.product, query.category]);
+
+  const setQuery = (changes) => {
+    const next = { ...query, ...changes };
+    Object.keys(next).forEach((k) => {
+      if (!next[k] || next[k] === "all") delete next[k];
+    });
+    router.replace({ pathname: router.pathname, query: next }, undefined, {
       shallow: true,
       scroll: false,
     });
   };
-  let results = (search ? searchProducts(search.trim()) : products).filter(
+  const clearFilters = () => {
+    setOnlySaved(false);
+    setQuery({ search: "", show: "", ...(gallery && { category: "" }) });
+  };
+
+  let results = (search.trim() ? searchProducts(search.trim()) : products).filter(
     (p) =>
-      (category === "all" || p.category === category) &&
+      (active === "all" || p.category === active) &&
       (!onlySaved || liked.has(p.id)),
   );
   if (sort === "az")
     results = [...results].sort((a, b) => a.name.localeCompare(b.name));
-  if (sort === "new")
-    results = [...results].sort(
-      (a, b) => Number(!!b.isNew) - Number(!!a.isNew),
+  // Category pages are short enough to list everything, so every product is
+  // linked from its category in the initial HTML.
+  const visible = categoryId ? results : results.slice(0, shown);
+  const filtered = search || onlySaved || (gallery && active !== "all");
+
+  const tab = (id, name, count) => {
+    const selected = active === id;
+    const label = (
+      <>
+        {name} <span>{count}</span>
+      </>
     );
-  const title = gallery
-    ? "A little everyday inspiration."
-    : "Good things for every room.";
+    return gallery ? (
+      <button
+        key={id}
+        className={selected ? "active" : ""}
+        aria-pressed={selected}
+        onClick={() => setQuery({ category: id, show: "" })}
+      >
+        {label}
+      </button>
+    ) : (
+      <Link
+        key={id}
+        href={id === "all" ? "/products" : categoryPath(id)}
+        className={selected ? "active" : ""}
+        aria-current={selected ? "page" : undefined}
+      >
+        {label}
+      </Link>
+    );
+  };
+
   return (
     <SiteLayout>
-      <Seo
-        title={`${gallery ? "Product Gallery" : "Our Products"} | Visto Homeware`}
-        description={
-          gallery
-            ? "See Visto homeware in everyday life. Explore kitchen storage, lunch boxes, bottles and household products."
-            : "Explore the complete Visto Homeware collection. Find containers, lunch boxes, bottles and more. Contact us for prices and wholesale enquiries."
-        }
-        path={gallery ? "/gallery" : "/products"}
-      />
-      <Head>
-        <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ItemList",
-            name: gallery ? "Visto product gallery" : "Visto product catalogue",
-            numberOfItems: products.length,
-            itemListElement: products.map((p, i) => ({
-              "@type": "ListItem",
-              position: i + 1,
-              url: siteConfig.baseUrl + "/products?product=" + p.id,
-              name: p.name,
-            })),
-          })}
-        </script>
-      </Head>
       <section className="catalogue-heading wrap">
-        <span className="eyebrow">
-          {gallery ? "VISTO, IN REAL LIFE" : "THE VISTO COLLECTION"}
-        </span>
-        <h1>{title}</h1>
+        {categoryId && (
+          <Breadcrumbs
+            items={[
+              { name: "Home", href: "/" },
+              { name: "Products", href: "/products" },
+              { name: category.name },
+            ]}
+          />
+        )}
         <div>
-          <p>
-            {gallery
-              ? "Fresh ideas for the spaces you call home. Take a closer look."
-              : "From the kitchen counter to your daily commute. Find your next everyday favourite."}
-          </p>
-          <a
-            className="text-link"
-            href="/catalogue.pdf"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Download catalogue <ArrowUpRight size={17} />
-          </a>
+          <h1>{gallery ? "Gallery" : category ? category.name : "All products"}</h1>
+          <CatalogueLink />
         </div>
       </section>
       <section className="catalogue-body wrap">
@@ -208,18 +138,19 @@ export default function Catalogue({ gallery = false }) {
             <input
               aria-label="Search products"
               type="search"
-              placeholder="Find something for your everyday…"
+              placeholder={
+                category
+                  ? `Search ${category.name.toLowerCase()}`
+                  : "Search containers, lunch boxes, bottles…"
+              }
               value={search}
-              onChange={(e) => update("search", e.target.value)}
+              onChange={(e) => setQuery({ search: e.target.value, show: "" })}
             />
           </label>
           <button
             className={"saved-filter " + (onlySaved ? "active" : "")}
             aria-pressed={onlySaved}
-            onClick={() => {
-              setOnlySaved(!onlySaved);
-              setLimit(24);
-            }}
+            onClick={() => setOnlySaved(!onlySaved)}
           >
             <Heart size={17} /> Saved <span>{liked.size}</span>
           </button>
@@ -227,64 +158,29 @@ export default function Catalogue({ gallery = false }) {
             <span className="sr-only">Sort products</span>
             <select value={sort} onChange={(e) => setSort(e.target.value)}>
               <option value="featured">Featured</option>
-              <option value="new">Newest additions</option>
               <option value="az">Name: A to Z</option>
             </select>
           </label>
           {gallery && (
             <button
               className="view-button"
-              aria-label={
-                masonry ? "Switch to grid view" : "Switch to masonry view"
-              }
+              aria-label={masonry ? "Show as grid" : "Show as gallery"}
               onClick={() => setMasonry(!masonry)}
             >
               {masonry ? <LayoutGrid size={20} /> : <Grid2X2 size={20} />}
             </button>
           )}
         </div>
-        <div className="category-tabs" aria-label="Product categories">
-          <button
-            className={category === "all" ? "active" : ""}
-            aria-pressed={category === "all"}
-            onClick={() => update("category", "all")}
-          >
-            All products <span>{products.length}</span>
-          </button>
-          {categories.map((c) => (
-            <button
-              className={category === c.id ? "active" : ""}
-              aria-pressed={category === c.id}
-              key={c.id}
-              onClick={() => update("category", c.id)}
-            >
-              {c.name} <span>{c.count}</span>
-            </button>
-          ))}
-        </div>
+        <nav className="category-tabs" aria-label="Product categories">
+          {tab("all", "All products", products.length)}
+          {categories.map((c) => tab(c.id, c.name, c.count))}
+        </nav>
         <div className="results-line">
           <p role="status">
-            {results.length} {results.length === 1 ? "essential" : "essentials"}
-            {category !== "all"
-              ? " in " +
-                (categories.find((c) => c.id === category)?.name || category)
-              : " for better everyday living"}
+            {results.length} {results.length === 1 ? "product" : "products"}
           </p>
-          {(search || category !== "all" || onlySaved) && (
-            <button
-              onClick={() => {
-                setOnlySaved(false);
-                setLimit(24);
-                router.replace(
-                  {
-                    pathname: router.pathname,
-                    query: {},
-                  },
-                  undefined,
-                  { shallow: true, scroll: false },
-                );
-              }}
-            >
+          {filtered && (
+            <button onClick={clearFilters}>
               Clear filters <X size={14} />
             </button>
           )}
@@ -292,72 +188,48 @@ export default function Catalogue({ gallery = false }) {
         {results.length ? (
           <>
             <div className={masonry ? "gallery-grid" : "product-grid"}>
-              {results.slice(0, limit).map((p) => (
+              {visible.map((p, i) => (
                 <ProductCard
                   key={p.id}
                   product={p}
+                  priority={i < 4}
                   liked={liked.has(p.id)}
                   onToggleLike={toggleLike}
                 />
               ))}
             </div>
-            {results.length > limit && (
+            {visible.length < results.length && (
               <div className="load-more">
                 <p>
-                  Showing {Math.min(limit, results.length)} of {results.length}{" "}
-                  products
+                  Showing {visible.length} of {results.length} products
                 </p>
                 <button
                   className="button button-outline"
-                  onClick={() => setLimit(limit + 24)}
+                  onClick={() => setQuery({ show: String(shown + PAGE_SIZE) })}
                 >
-                  Discover more products <ArrowUpRight size={18} />
+                  Show more products
                 </button>
               </div>
             )}
           </>
         ) : (
           <div className="empty-state">
-            <Search size={35} />
             <h2>
               {onlySaved
-                ? "Your favourites will feel at home here."
-                : "Nothing here just yet."}
+                ? "No saved products yet"
+                : `No products match “${search}”`}
             </h2>
             <p>
               {onlySaved
-                ? "Tap the heart on a product to save it."
-                : "Try a different search or clear your filters to explore the collection."}
+                ? "Tap the heart on any product to save it here."
+                : "Check the spelling, or search for a product type such as “tiffin” or “bottle”."}
             </p>
-            <button
-              className="button button-dark"
-              onClick={() => {
-                setOnlySaved(false);
-                router.replace(
-                  {
-                    pathname: router.pathname,
-                    query: {},
-                  },
-                  undefined,
-                  {
-                    shallow: true,
-                    scroll: false,
-                  },
-                );
-              }}
-            >
-              Explore all products <ArrowUpRight size={18} />
+            <button className="button button-red" onClick={clearFilters}>
+              {onlySaved ? "Show all products" : "Clear search"}
             </button>
           </div>
         )}
       </section>
-      {selected && (
-        <ProductDetails
-          key={selected.id}
-          product={selected}
-          onClose={() => update("product", "")}
-        />
-      )}
     </SiteLayout>
   );
 }

@@ -9,41 +9,48 @@ npm run dev      # Dev server with Turbopack (http://localhost:3000)
 npm run build    # Production build
 npm start        # Serve production build
 npm run lint     # ESLint (next/core-web-vitals)
+node scripts/generate-icons.mjs   # Rebuild favicon/app icons from public/vh-logo.png
 ```
 
 No test framework is configured — there are no tests.
 
 ## Stack
 
-Next.js 15 **Pages Router** (not App Router — there is no `app/` directory despite `./app/**` appearing in `tailwind.config.js` content globs). React 19, plain JavaScript (no TypeScript), Tailwind CSS 3, GSAP for animation, `lucide-react` for icons. Path alias `@/*` maps to the repo root (`jsconfig.json`).
+Next.js 15 **Pages Router** (not App Router — there is no `app/` directory despite `./app/**` appearing in `tailwind.config.js` content globs). React 19, plain JavaScript (no TypeScript), `lucide-react` for icons, Inter via `next/font/google`. Styling is plain CSS in `styles/globals.css` (Tailwind is installed but the pages don't use its classes). Path alias `@/*` maps to the repo root (`jsconfig.json`).
 
 ## Architecture
 
-This is a **static marketing/catalog site, not a transactional store.** There is no cart, checkout, payment, or backend persistence. Product CTAs ("Get Quote") scroll to the on-page contact section. `pages/api/hello.js` is the stock scaffold and unused.
+A **catalogue and enquiry site, not a store.** There is no cart, checkout or pricing. Conversions are catalogue downloads, WhatsApp chats, calls and contact-form enquiries.
 
-**Single data source — `data/products.js`.** Every page `import`s the `products` array and helpers directly at module scope; there is no `getStaticProps`/`getServerSideProps`/`getStaticPaths` anywhere, so pages render from this static module at build time. The module also exports `categories`, `sizes`, `priceRanges`, and helper functions (`searchProducts`, `getProductsByCategory`, `getProductById`, etc.). To add or change a product, edit this file.
+**Data.** `data/products.js` holds every product; edit it to add or change products. `lib/categories.js` holds the category list, each category's search title/description and its homepage tile image; `data/products.js` builds `categories` (with counts) from it. Products have no `price`. Their `rating`/`reviews` fields are not real reviews: never show them or put them in structured data. Image paths must match `public/` filenames exactly, including spaces and odd extensions (e.g. `/FEEL FRESH LONG 900ml..jpeg`).
 
-**Pages** (`pages/`): `index.js` (homepage — hero, carousel, stats, testimonials, contact), `products.js` (searchable/filterable grid), `gallery.js` (Masonry view), plus `_app.js`/`_document.js`.
+**URLs** come from `lib/catalog.js`: categories at `/products/[category]`, products at `/products/[category]/[slug]` where the slug is the slugified product name. Renaming a product changes its URL. Old `/products?product=<id>` and `/products?category=<id>` links are redirected client-side by `components/Catalogue.js`.
 
-### Redesign worktree
+**Pages.**
+- `index.js`: homepage. `getStaticProps` passes only the products shown, so the full catalogue isn't bundled.
+- `products/index.js`, `products/[category]/index.js` and `gallery.js` all render `components/Catalogue.js`, which handles search (`?search=`), "show more" (`?show=`), saved favourites (localStorage key `visto:liked`) and category tabs. Tabs are links on catalogue pages and `?category=` filters on the gallery.
+- `products/[category]/[slug].js`: product page with WhatsApp and quote buttons.
+- `contact.js` and `api/contact.js`: the enquiry form. See below.
+- `sitemap.xml.js` is generated from the data, so don't add a static `public/sitemap.xml` (it would conflict). Also `404.js`.
 
-This copy is the `codex/visto-redesign` branch. The original checkout is retained separately. `components/SiteLayout.js` now provides the shared navigation, contact section and footer. `components/Catalogue.js` provides both catalogue and gallery views, filtering, saved favourites and native dialog product details; `components/ProductCard.js` preserves current filters in detail links. The homepage reads the existing product data for its featured cards. The visual palette is the existing logo's red, black and white, with Inter as the only text font. The previous Masonry component is retained but no longer used by these pages. `styles/globals.css` owns the new layout and responsive styles. Preview on port 3001. Design variants are statically generated at `/concepts/showroom` and `/concepts/bold`; `/concepts` is the comparison page. `lib/designs.js` and `components/DesignLink.js` preserve the design in catalogue links. `styles/concepts.css` contains the variant styles. `node scripts/check-designs.mjs` checks the shared routing helper.
+`components/SiteLayout.js` is the shared header, contact strip (hidden on `/contact`), footer and WhatsApp button. Business details (phone, WhatsApp number, email, GSTIN, address, map) live in `lib/siteConfig.js`.
 
-### Original-site conventions and gotchas (historical)
+**Contact form.** `/api/contact` validates with `lib/enquiry.js` (shared with the page), drops honeypot submissions and emails the enquiry through Resend. It needs `RESEND_API_KEY`; `CONTACT_TO_EMAIL` and `CONTACT_FROM_EMAIL` are optional (see `.env.example`). Without the key it returns 503, and the page offers to send the same message on WhatsApp or by email.
 
-- **No shared layout.** The navbar and footer are copy-pasted inline into `index.js`, `products.js`, and `gallery.js`. A nav/footer change must be applied to all three files (and there is no `Layout` component to introduce one).
-- **Products have no `price` field.** `pages/products.js` filters and sorts on `product.price` (the "Price: Low/High" sort options and the `priceRanges` filter), but since the field is absent these are silent no-ops. The prices in `README.md` are documentation only — they are not in the data. Don't assume price logic works; wire up a `price` field first if pricing is needed.
-- **The homepage carousel duplicates product data.** `ProductCarousel` in `index.js` has its own hardcoded array — it does not read from `data/products.js`. Featured-product changes there are separate.
-- **Image paths must match `public/` filenames exactly**, including literal spaces and inconsistent extensions (`.jpg` vs `.jpeg`), e.g. `/FEEL FRESH LONG 900ml..jpeg` (note the double dot). `product.img` / `product.images` are these exact strings. Adding a product means dropping the image in `public/` and referencing its exact name.
+**Analytics.** `lib/track.js` sends Vercel Analytics custom events (`catalogue_download`, `whatsapp_click`, `enquiry_sent`), which are only recorded on paid Vercel plans.
 
-### SEO (a primary goal of this project)
+### SEO
 
-Every page sets metadata via `next/head` (title, description, Open Graph, Twitter Card, canonical) **and** emits Schema.org JSON-LD with `<script type="application/ld+json">{JSON.stringify(...)}</script>`, built by mapping over `products`. Canonical/OG URLs are hardcoded to `https://vistohomeware.com`. `public/sitemap.xml` and `public/robots.txt` are static and maintained by hand. When adding a page or product, keep these in sync.
+Every page uses `components/Seo.js` (title, description, canonical, Open Graph) and `JsonLd` for structured data:
+- Organization on the homepage and LocalBusiness on the contact page.
+- ItemList on `/products` and CollectionPage on each category page.
+- Product plus BreadcrumbList on product pages.
 
-### Animation
+Canonical and Open Graph URLs use `siteConfig.baseUrl` (`https://vistohomeware.com`). Product titles and descriptions come from each product's `seo` field, falling back to its name and description.
 
-GSAP with `ScrollTrigger`, registered behind a `typeof window !== 'undefined'` guard (it cannot run during SSR). `components/Masonry.js` is a custom absolute-positioned grid laid out and animated entirely with GSAP via `useMedia`/`useMeasure` hooks; it preloads images before animating and expects items shaped `{ id, img, height, name?, size?, url? }`. `gallery.js`'s `convertToMasonryItems` adapts products into that shape, synthesizing varied `height` values for the masonry effect.
+### Design rules (from the client)
 
-### Styling
-
-Tailwind with custom palettes in `tailwind.config.js`: **`burgundy`** (primary brand color, used as `burgundy-800`/`900`) and **`rose`**, plus custom `fade-in`/`slide-up`/`float` animations. Inter is loaded via `next/font/google` in `_app.js` and exposed as the CSS variable `--font-inter` (referenced by the Tailwind `sans` font family). Global styles live in `styles/globals.css`; Masonry-specific styles in `styles/Masonry.css`. ESLint disables `react/no-unescaped-entities`.
+- Keep the calm, light "Everyday" look: white pages, the logo's red (`--red`) as the accent, black and white otherwise, Inter for all text.
+- No eyebrow labels, taglines or subtitles above or below headings, and no text over product photos. Headings stand alone, followed by content or a button.
+- No loud full-bleed colour blocks or gimmicky layouts on the homepage.
+- The catalogue download is the first button on the homepage.
