@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /api/
 
-Sitemap: https://vistohomeware.com/sitemap.xml
+Sitemap: https://www.vistohomeware.com/sitemap.xml

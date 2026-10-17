@@ -47,7 +47,7 @@ Every page uses `components/Seo.js` (title, description, canonical, Open Graph) 
 - ItemList on `/products` and CollectionPage on each category page.
 - Product plus BreadcrumbList on product pages.
 
-Canonical and Open Graph URLs use `siteConfig.baseUrl` (`https://vistohomeware.com`). Product titles and descriptions come from each product's `seo` field, falling back to its name and description.
+Canonical and Open Graph URLs use `siteConfig.baseUrl` (`https://www.vistohomeware.com`; the bare domain redirects to www, so canonicals must use www). Product titles and descriptions come from each product's `seo` field, falling back to its name and description.
 
 ### Design rules (from the client)
 
